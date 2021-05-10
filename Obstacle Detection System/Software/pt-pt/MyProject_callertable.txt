@@ -1,0 +1,11 @@
+main
+	__CC2DW
+		____DoICP
+	moving_average
+		Div_32x32_S
+			SDIV3232L
+			COMFREM
+	optionA
+		Mul_8X8_U
+	optionB
+interrupt

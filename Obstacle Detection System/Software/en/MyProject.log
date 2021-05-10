@@ -1,0 +1,11 @@
+0	1	mikroCPIC1618.exe -MSF -DBG -pP12F629 -DL -O11111114 -fo4 -N"C:\Users\zecap\Documents\GitHub\Robo-Aspirador\Obstacle Detection System\Software\en\MyProject.mcppi" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Uses\P16\" -SP"C:\Users\zecap\Documents\GitHub\Robo-Aspirador\Obstacle Detection System\Software\en\" -IP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Uses\P16\" "Ultrassonic_System.c" "__Lib_Math.mcl" "__Lib_MathDouble.mcl" "__Lib_System.mcl" "__Lib_Delays.mcl"	 
+hint: 0	1139	Available RAM: 48 [bytes], Available ROM: 1024 [bytes]	 
+diagnostics: 0	122	Compilation Started	Ultrassonic_System.c
+diagnostics: 269	123	Compiled Successfully	Ultrassonic_System.c
+diagnostics: 0	127	All files Compiled in 140 ms	 
+hint: 0	1144	Used RAM (bytes): 37 (77%)  Free RAM (bytes): 11 (23%)	Used RAM (bytes): 37 (77%)  Free RAM (bytes): 11 (23%)
+hint: 0	1144	Used ROM (program words): 996 (97%)  Free ROM (program words): 28 (3%)	Used ROM (program words): 996 (97%)  Free ROM (program words): 28 (3%)
+diagnostics: 0	125	Project Linked Successfully	MyProject.mcppi
+diagnostics: 0	128	Linked in 31 ms	 
+diagnostics: 0	129	Project 'MyProject.mcppi' completed: 343 ms	 
+diagnostics: 0	103	Finished successfully: 10 mai 2021, 22:40:30	MyProject.mcppi
