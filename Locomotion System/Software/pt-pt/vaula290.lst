@@ -1,0 +1,546 @@
+MPASM  5.51                      VAULA290.ASM   9-6-2019  2:26:13         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ; =================================================================================================
+                      00002 ; Código Fonte para controle de Motor de Passo Unipolar
+                      00003 ;
+                      00004 ; Vídeo Aula de Engenharia Eletrônica 290
+                      00005 ; A Clássica de Sexta
+                      00006 ;
+                      00007 ;
+                      00008 ; Processador: PIC12F629   Clock: Interno 4MHz  Ciclo de Máquina: 1µs
+                      00009 ;
+                      00010 ;
+                      00011 ; Saídas:
+                      00012 ;
+                      00013 ; out3 -> bit mais significativo do controle
+                      00014 ; out0 -> bit menos significativo do controle
+                      00015 ;
+                      00016 ; 
+                      00017 ; Autor: Eng. Wagner Rambo   Data: Setembro de 2019
+                      00018 ;
+                      00019 ;
+                      00020 ; =================================================================================================
+                      00021 
+                      00022 
+                      00023 ; =================================================================================================
+                      00024 ; --- Listagens e Inclusões de Arquivos
+                      00025 
+                      00026         list            p=12f629                                        ;Microcontrolador utilizado no p
+                            rojeto
+                      00027         #include        <p12f629.inc>                           ;Inclui arquivo com registradores do PIC
+                            12F629
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC12F629 processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2013 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00338         LIST
+                      00028         
+                      00029 
+                      00030 ; =================================================================================================
+                      00031 ; --- FUSE Bits ---
+                      00032 ; -> Oscilador Interno 4MHz sem clock externo;
+                      00033 ; -> Sem WatchDog Timer;
+                      00034 ; -> Power Up Timer Habilitado;
+                      00035 ; -> Master Clear Desabilitado;
+                      00036 ; -> Sem Brown Out;
+                      00037 ; -> Sem proteções.
+                      00038 
+2007   3F84           00039         __config        _INTRC_OSC_NOCLKOUT & _WDT_OFF & _PWRTE_ON & _MCLRE_OFF & _BOREN_OFF & _CP_OFF &
+                             _CPD_OFF
+                      00040 
+                      00041 
+MPASM  5.51                      VAULA290.ASM   9-6-2019  2:26:13         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00042 ; =================================================================================================
+                      00043 ; --- Paginação de Memória ---
+                      00044 
+                      00045         #define bank0   bcf     STATUS,RP0                      ;cria mnemônico para seleção do banco 0 
+                            de memória
+                      00046         #define bank1   bsf     STATUS,RP0                      ;cria mnemônico para seleção do banco 1 
+                            de memória
+                      00047         
+                      00048 
+                      00049 ; =================================================================================================
+                      00050 ; --- Definicação de Entradas e Saídas ---
+                      00051 
+                      00052         #define out3    GPIO,GP4                                ;saída 3 (mais significativa)
+                      00053         #define out0    GPIO,GP5                                ;saída 0 (menos significativa)
+                      00054         #define ctrl    GPIO,GP3                                ;entrada de controle de direção do motor
+                      00055         
+                      00056 
+                      00057 ; =================================================================================================
+                      00058 ; --- Registradores de Uso Geral ---
+                      00059 
+                      00060         cblock  H'20'                                                   ;Início da memória disponível pa
+                            ra o usuário
+                      00061         
+  00000020            00062         W_TEMP                                                                  ;Armazena valor temporár
+                            io de W
+  00000021            00063         STATUS_TEMP                                                             ;Armazena valor temporár
+                            io de STATUS
+  00000022            00064         STEP                                                                    ;Armazena valor do passo
+                             atual do motor
+                      00065         
+                      00066         endc                                                                    ;Final da memória dispon
+                            ível para o usuário
+                      00067 
+                      00068 
+                      00069 ; =================================================================================================
+                      00070 ; --- Vetor de RESET ---
+                      00071 
+0000                  00072         org             H'0000'                                                 ;Origem no endereço 00h 
+                            de memória
+0000   2812           00073         goto    inicio                                                  ;Desvia do vetor de interrupção
+                      00074         
+                      00075 
+                      00076 ; =================================================================================================
+                      00077 ; --- Vetor de Interrupção ---
+                      00078 
+0004                  00079         org             H'0004'                                                 ;Todas interrupções apon
+                            tam para este endereço na memória de programa
+                      00080         
+                      00081 ; -- Salva Contexto --
+0004   00A0           00082         movwf   W_TEMP                                                  ;Salva conteúdo de Work no regis
+                            trador W_TEMP
+0005   0E03           00083         swapf   STATUS,W                                                ;Carrega conteúdo de STATUS no r
+                            egistrador Work com nibbles invertidos
+MPASM  5.51                      VAULA290.ASM   9-6-2019  2:26:13         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0006   1283           00084         bank0                                                                   ;Seleciona o banco 0 de 
+                            memória
+0007   00A1           00085         movwf   STATUS_TEMP                                             ;Salva conteúdo de STATUS no reg
+                            istrador STATUS_TEMP
+                      00086         
+                      00087 ; -- Teste das flags --
+0008   188B           00088         btfsc   INTCON,INTF                                             ;Ocorreu interrupção externa?
+0009   280B           00089         goto    trata_INTE                                              ;Sim, desvia para tratar interru
+                            pção Externa
+000A   280D           00090         goto    exit_ISR                                                ;Não, desvia para saída de inter
+                            rupção
+                      00091         
+                      00092         
+                      00093 ; -- Trata Interrupção Externa --
+000B                  00094 trata_INTE:
+000B   108B           00095         bcf             INTCON,INTF                                             ;Limpa flag
+                      00096 
+000C   2021           00097         call    process                                                 ;chama função de controle do mot
+                            or
+                      00098 
+                      00099                 
+                      00100 ; -- Recupera Contexto (Saída de Interrupção ) --
+000D                  00101 exit_ISR:
+000D   0E21           00102         swapf   STATUS_TEMP,W                                   ;Carrega conteúdo de STATUS_TEMP no regi
+                            strador Work
+000E   0083           00103         movwf   STATUS                                                  ;Recupera STATUS pré ISR
+000F   0EA0           00104         swapf   W_TEMP,F                                                ;Inverte nibbles do W_TEMP e arm
+                            azena em W_TEMP
+0010   0E20           00105         SWAPF   W_TEMP,W                                                ;Inverte novamente nibbles de W_
+                            TEMP armazendo em Work (Recupera Work pré ISR)
+0011   0009           00106         retfie                                                                  ;Retorna da interrupção
+                      00107         
+                      00108 
+                      00109 ; =================================================================================================
+                      00110 ; --- Configurações Iniciais ---
+0012                  00111 inicio:
+                      00112 
+0012   1683           00113         bank1                                                                   ;Seleciona banco1 de mem
+                            ória
+0013   300F           00114         movlw           H'0F'                                           ;Carrega literal 00001111b para 
+                            o registrador Work
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0014   0085           00115         movwf           TRISIO                                          ;Configura GP4 e GP5 como saída 
+                            (TRISIO = 0x0F)
+0015   30C0           00116         movlw           H'C0'                                           ;Carrega literal 11000000b para 
+                            o registrador Work
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0016   0081           00117         movwf           OPTION_REG                                      ;(OPTION_REG = 0xC0)
+                      00118                                                                                         ; - Desabilita P
+                            ull-Ups internos
+                      00119                                                                                         ; - Configura in
+                            terrupção externa por borda de subida
+                      00120                                                                                         
+MPASM  5.51                      VAULA290.ASM   9-6-2019  2:26:13         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0017   1283           00121         bank0                                                                   ;Seleciona banco0 de mem
+                            ória
+0018   3007           00122         movlw           H'07'                                           ;Carrega literal 00000111b para 
+                            o registrador Work
+0019   0099           00123         movwf           CMCON                                           ;Desabilita comparadores interno
+                            s (CMCON = 0x07)
+001A   3090           00124         movlw           H'90'                                           ;Carrega literal 10010000b para 
+                            o registrador Work
+001B   008B           00125         movwf           INTCON                                          ;(INTCON = 0x90)                
+                      00126                                                                                         ; - Habilita int
+                            errupção global
+                      00127                                                                                         ; - Habilita int
+                            errupção externa
+                      00128                                                                                         
+001C   1205           00129         bcf                     out3                                            ;out3 inicia em low
+001D   1285           00130         bcf                     out0                                            ;out0 inicia em low
+001E   3004           00131         movlw           H'04'                                           ;Carrega literal 00000100b para 
+                            o registrador Work
+001F   00A2           00132         movwf           STEP                                            ;Inicializa STEP
+                      00133 
+                      00134 
+                      00135  
+0020   2820           00136         goto            $                                                       ;LOOP INFINITO, aguarda 
+                            interrupção
+                      00137         
+                      00138 
+                      00139 ; =================================================================================================
+                      00140 ; --- Função para controle do Motor --- 
+0021                  00141 process:        
+                      00142 
+0021   0CA2           00143         rrf             STEP,F                                                  ;shift right em STEP
+0022   0822           00144         movf    STEP,W                                                  ;carrega conteúdo de STEP no reg
+                            istrador Work
+0023   3901           00145         andlw   H'01'                                                   ;W = W and 00000001b
+0024   1903           00146         btfsc   STATUS,Z                                                ;Resultado da operação foi zero?
+0025   2828           00147         goto    dir                                                             ;Sim, desvia para steps
+0026   3010           00148         movlw   H'10'                                                   ;Não, move 00010000b para work
+0027   00A2           00149         movwf   STEP                                                    ;reinicia STEP
+                      00150         
+0028                  00151 dir:
+0028   1D85           00152         btfss   ctrl                                                    ;Entrada ctrl em high?  
+0029   283B           00153         goto    steps2                                                  ;Não, desvia para steps2
+                      00154         
+002A                  00155 steps1:
+002A   0822           00156         movf    STEP,W                                                  ;Carrega o conteúdo de STEP no r
+                            egistrador Work
+002B   3902           00157         andlw   H'02'                                                   ;W = W and 00000010b
+002C   1D03           00158         btfss   STATUS,Z                                                ;Resultado da operação foi zero?
+002D   284C           00159         goto    step_1                                                  ;Não, desvia para o step_1
+002E   0822           00160         movf    STEP,W                                                  ;Sim, carrega o conteúdo de STEP
+                             no registrador Work
+002F   3904           00161         andlw   H'04'                                                   ;W = W and 00000100b
+0030   1D03           00162         btfss   STATUS,Z                                                ;Resultado da operação foi zero?
+MPASM  5.51                      VAULA290.ASM   9-6-2019  2:26:13         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0031   284F           00163         goto    step_2                                                  ;Não, desvia para o step_2
+0032   0822           00164         movf    STEP,W                                                  ;Sim, carrega o conteúdo de STEP
+                             no registrador Work
+0033   3908           00165         andlw   H'08'                                                   ;W = W and 00000100b
+0034   1D03           00166         btfss   STATUS,Z                                                ;Resultado da operação foi zero?
+0035   2852           00167         goto    step_3                                                  ;Não, desvia para o step_3
+0036   0822           00168         movf    STEP,W                                                  ;Sim, carrega o conteúdo de STEP
+                             no registrador Work
+0037   3910           00169         andlw   H'10'                                                   ;W = W and 00010000b
+0038   1D03           00170         btfss   STATUS,Z                                                ;Resultado da operação foi zero?
+0039   2855           00171         goto    step_4                                                  ;Não, desvia para o step_4
+003A   0008           00172         return                                                                  ;retorna
+                      00173         
+                      00174 
+003B                  00175 steps2:
+003B   0822           00176         movf    STEP,W                                                  ;Carrega o conteúdo de STEP no r
+                            egistrador Work
+003C   3902           00177         andlw   H'02'                                                   ;W = W and 00000010b
+003D   1D03           00178         btfss   STATUS,Z                                                ;Resultado da operação foi zero?
+003E   2855           00179         goto    step_4                                                  ;Não, desvia para o step_4
+003F   0822           00180         movf    STEP,W                                                  ;Sim, carrega o conteúdo de STEP
+                             no registrador Work
+0040   3904           00181         andlw   H'04'                                                   ;W = W and 00000100b
+0041   1D03           00182         btfss   STATUS,Z                                                ;Resultado da operação foi zero?
+0042   2852           00183         goto    step_3                                                  ;Não, desvia para o step_3
+0043   0822           00184         movf    STEP,W                                                  ;Sim, carrega o conteúdo de STEP
+                             no registrador Work
+0044   3908           00185         andlw   H'08'                                                   ;W = W and 00000100b
+0045   1D03           00186         btfss   STATUS,Z                                                ;Resultado da operação foi zero?
+0046   284F           00187         goto    step_2                                                  ;Não, desvia para o step_2
+0047   0822           00188         movf    STEP,W                                                  ;Sim, carrega o conteúdo de STEP
+                             no registrador Work
+0048   3910           00189         andlw   H'10'                                                   ;W = W and 00010000b
+0049   1D03           00190         btfss   STATUS,Z                                                ;Resultado da operação foi zero?
+004A   284C           00191         goto    step_1                                                  ;Não, desvia para o step_1
+004B   0008           00192         return                                                                  ;retorna
+                      00193         
+                      00194  
+004C                  00195 step_1:
+004C   1605           00196         bsf             out3                                                    ;out3 em high
+004D   1685           00197         bsf             out0                                                    ;out0 em high
+004E   0008           00198         return                                                                  ;retorna
+                      00199                 
+004F                  00200 step_2:
+004F   1605           00201         bsf             out3                                                    ;out3 em high
+0050   1285           00202         bcf             out0                                                    ;out0 em low
+0051   0008           00203         return                                                                  ;retorna
+                      00204         
+0052                  00205 step_3:
+0052   1205           00206         bcf             out3                                                    ;out3 em low
+0053   1285           00207         bcf             out0                                                    ;out0 em low
+0054   0008           00208         return                                                                  ;retorna
+                      00209         
+MPASM  5.51                      VAULA290.ASM   9-6-2019  2:26:13         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0055                  00210 step_4:
+0055   1205           00211         bcf             out3                                                    ;out3 em low
+0056   1685           00212         bsf             out0                                                    ;out0 em high
+0057   0008           00213         return                                                                  ;retorna
+                      00214         
+                      00215 
+                      00216 ; =================================================================================================
+                      00217 ; --- Final --- 
+                      00218         end                                                                             ;Final do progra
+                            ma
+MPASM  5.51                      VAULA290.ASM   9-6-2019  2:26:13         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADIE                              00000006
+ADIF                              00000006
+C                                 00000000
+CAL0                              00000002
+CAL1                              00000003
+CAL2                              00000004
+CAL3                              00000005
+CAL4                              00000006
+CAL5                              00000007
+CINV                              00000004
+CIS                               00000003
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             00000019
+CMIE                              00000003
+CMIF                              00000003
+COUT                              00000006
+DC                                00000001
+EEADR                             0000009B
+EECON1                            0000009C
+EECON2                            0000009D
+EEDAT                             0000009A
+EEDATA                            0000009A
+EEIE                              00000007
+EEIF                              00000007
+F                                 00000001
+FSR                               00000004
+GIE                               00000007
+GP0                               00000000
+GP1                               00000001
+GP2                               00000002
+GP3                               00000003
+GP4                               00000004
+GP5                               00000005
+GPIE                              00000003
+GPIF                              00000000
+GPIO                              00000005
+GPIO0                             00000000
+GPIO1                             00000001
+GPIO2                             00000002
+GPIO3                             00000003
+GPIO4                             00000004
+GPIO5                             00000005
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IOC                               00000096
+IOC0                              00000000
+IOC1                              00000001
+IOC2                              00000002
+MPASM  5.51                      VAULA290.ASM   9-6-2019  2:26:13         PAGE  8
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+IOC3                              00000003
+IOC4                              00000004
+IOC5                              00000005
+IOCB                              00000096
+IOCB0                             00000000
+IOCB1                             00000001
+IOCB2                             00000002
+IOCB3                             00000003
+IOCB4                             00000004
+IOCB5                             00000005
+IRP                               00000007
+NOT_BOD                           00000000
+NOT_BOR                           00000000
+NOT_GPPU                          00000007
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OPTION_REG                        00000081
+OSCCAL                            00000090
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RD                                00000000
+RP0                               00000005
+RP1                               00000006
+STATUS                            00000003
+STATUS_TEMP                       00000021
+STEP                              00000022
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1IE                              00000000
+T1IF                              00000000
+T1OSCEN                           00000003
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1                              0000000E
+TMR1CS                            00000001
+TMR1GE                            00000006
+TMR1H                             0000000F
+MPASM  5.51                      VAULA290.ASM   9-6-2019  2:26:13         PAGE  9
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TRISIO                            00000085
+TRISIO0                           00000000
+TRISIO1                           00000001
+TRISIO2                           00000002
+TRISIO3                           00000003
+TRISIO4                           00000004
+TRISIO5                           00000005
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+VRCON                             00000099
+VREN                              00000007
+VRR                               00000005
+W                                 00000000
+WPU                               00000095
+WPU0                              00000000
+WPU1                              00000001
+WPU2                              00000002
+WPU4                              00000004
+WPU5                              00000005
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+W_TEMP                            00000020
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_OFF                           00003FFF
+_CP_ON                            00003F7F
+_DEVID1                           00002006
+_EC_OSC                           00003FFB
+_EXTRC_OSC_CLKOUT                 00003FFF
+_EXTRC_OSC_NOCLKOUT               00003FFE
+_FOSC_EC                          00003FFB
+_FOSC_EXTRCCLK                    00003FFF
+_FOSC_EXTRCIO                     00003FFE
+_FOSC_HS                          00003FFA
+_FOSC_INTRCCLK                    00003FFD
+_FOSC_INTRCIO                     00003FFC
+_FOSC_LP                          00003FF8
+_FOSC_XT                          00003FF9
+_HS_OSC                           00003FFA
+_IDLOC0                           00002000
+MPASM  5.51                      VAULA290.ASM   9-6-2019  2:26:13         PAGE 10
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_INTRC_OSC_CLKOUT                 00003FFD
+_INTRC_OSC_NOCLKOUT               00003FFC
+_LP_OSC                           00003FF8
+_MCLRE_OFF                        00003FDF
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FEF
+_WDTE_OFF                         00003FF7
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FF7
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FF9
+__12F629                          00000001
+__DEBUG                           1
+bank0                             bcf     STATUS,RP0
+bank1                             bsf     STATUS,RP0
+ctrl                              GPIO,GP3
+dir                               00000028
+exit_ISR                          0000000D
+inicio                            00000012
+out0                              GPIO,GP5
+out3                              GPIO,GP4
+process                           00000021
+step_1                            0000004C
+step_2                            0000004F
+step_3                            00000052
+step_4                            00000055
+steps1                            0000002A
+steps2                            0000003B
+trata_INTE                        0000000B
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXX-------- ---------------- ----------------
+2000 : -------X-------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:    85
+Program Memory Words Free:   939
+
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     2 reported,     0 suppressed
+
+

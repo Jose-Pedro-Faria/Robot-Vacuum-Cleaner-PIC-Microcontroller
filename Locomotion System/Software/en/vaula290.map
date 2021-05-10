@@ -1,0 +1,56 @@
+MPLINK 4.49, Linker
+Linker Map File - Created Fri Sep 06 02:26:14 2019
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x0000a8
+  .config_2007_VAULA290.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x000057      
+                            0x002007    0x002007      
+            86 out of 1158 program addresses used, program memory utilization is 7%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                      dir   0x000028    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                 exit_ISR   0x00000d    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                   inicio   0x000012    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                  process   0x000021    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                   step_1   0x00004c    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                   step_2   0x00004f    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                   step_3   0x000052    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                   step_4   0x000055    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                   steps1   0x00002a    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                   steps2   0x00003b    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+               trata_INTE   0x00000b    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+               trata_INTE   0x00000b    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                 exit_ISR   0x00000d    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                   inicio   0x000012    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                  process   0x000021    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                      dir   0x000028    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                   steps1   0x00002a    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                   steps2   0x00003b    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                   step_1   0x00004c    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                   step_2   0x00004f    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                   step_3   0x000052    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+                   step_4   0x000055    program     static C:\You Tube - Meu Canal\06 Vídeo Aula Engenharia Eletrônica\Vídeo Aula 201 a 300 __ FASE 3\Vídeo Aula 290 - Controlador PIC de Motor de Passo __ 06-09-2019\vAula290_WR_Files\PIC12F629_source\vaula290.asm
+
+
