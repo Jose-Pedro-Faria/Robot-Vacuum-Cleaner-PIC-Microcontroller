@@ -1,0 +1,1 @@
+The datasheet of the motors is 5V, but it is exactly the same as the 12V, only the operating voltage changes
