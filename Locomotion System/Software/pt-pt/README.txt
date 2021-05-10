@@ -1,0 +1,1 @@
+Aqui estão todos os ficheiros do projeto para abrir no MPLab IDE, contudo para ver o programa aqui no GitHub basta abrir o ficheiro .asm
