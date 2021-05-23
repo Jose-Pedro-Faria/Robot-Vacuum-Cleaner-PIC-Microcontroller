@@ -1,9 +1,5 @@
 /* ============================================================================
     Robo Aspirador
-    Versão 0.2
-
-    Proposito do Programa:
-              Testar os comandos do PIC18F4520 para os PIC12F629 dos Step Motors
 
     MCU: PIC18F4520
     Clock: 20MHz
@@ -12,8 +8,8 @@
 
     Autor do Programa: Eng. Wagner Rambo
     Data de Criação: Junho 2020
-    Autor do Teste: José Pedro Faria
-    Data Teste: Abril 2020
+    Autor das Alterações: José Pedro Faria
+    Data da Última Alteração: Maio 2020
  =============================================================================*/
 
  //---Mapeamento de Hardware---
