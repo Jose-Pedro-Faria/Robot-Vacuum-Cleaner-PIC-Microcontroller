@@ -7,10 +7,10 @@ _interrupt:
 	GOTO        L_interrupt0
 ;MyProject.c,32 :: 		TMR0IF_bit = 0x00;                                                     //Limpa Flag
 	BCF         TMR0IF_bit+0, BitPos(TMR0IF_bit+0) 
-;MyProject.c,33 :: 		TMR0L      = byteH;                                                     //Reinicia byte menos sifnificativo do Timer0
+;MyProject.c,33 :: 		TMR0L      = byteH;                                                    //Reinicia byte menos sifnificativo do Timer0
 	MOVF        _byteH+0, 0 
 	MOVWF       TMR0L+0 
-;MyProject.c,34 :: 		TMR0H      = byteL;                                                     //Reinicia byte mais significativo do Timer0
+;MyProject.c,34 :: 		TMR0H      = byteL;                                                    //Reinicia byte mais significativo do Timer0
 	MOVF        _byteL+0, 0 
 	MOVWF       TMR0H+0 
 ;MyProject.c,36 :: 		vel1       = ~vel1;                                                    //Gera clock para velocidade do motor1
@@ -21,7 +21,7 @@ _interrupt:
 L_interrupt0:
 ;MyProject.c,39 :: 		} //end interrupt
 L_end_interrupt:
-L__interrupt5:
+L__interrupt12:
 	RETFIE      1
 ; end of _interrupt
 
@@ -39,48 +39,176 @@ _main:
 	BCF         T0CS_bit+0, BitPos(T0CS_bit+0) 
 ;MyProject.c,53 :: 		PSA_bit          = 0x01;                                                   //bit 3: timer0 sem prescaler (1:1)
 	BSF         PSA_bit+0, BitPos(PSA_bit+0) 
-;MyProject.c,59 :: 		TMR0L    = 0x00;                                                           //byte menos significativo      0x48
-	CLRF        TMR0L+0 
-;MyProject.c,60 :: 		TMR0H    = 0x00;                                                           //byte mais significativo       0x77
-	CLRF        TMR0H+0 
+;MyProject.c,59 :: 		TMR0L    = 0x48;                                                           //byte menos significativo      0x48
+	MOVLW       72
+	MOVWF       TMR0L+0 
+;MyProject.c,60 :: 		TMR0H    = 0x77;                                                           //byte mais significativo       0x77
+	MOVLW       119
+	MOVWF       TMR0H+0 
 ;MyProject.c,75 :: 		TRISD   = 0x3C;                                                            //Configura IOs no PORTD
 	MOVLW       60
 	MOVWF       TRISD+0 
-;MyProject.c,76 :: 		PORTD   = 0x3F;                                                            //Inicializa PORTD
-	MOVLW       63
+;MyProject.c,76 :: 		PORTD   = 0x3C;                                                            //Inicializa PORTD
+	MOVLW       60
 	MOVWF       PORTD+0 
 ;MyProject.c,77 :: 		ADCON1  = 0x0F;                                                            //Configura os pinos do PORTB como digitais
 	MOVLW       15
 	MOVWF       ADCON1+0 
-;MyProject.c,79 :: 		byteH  = 0xA7;                                                            //xHz
+;MyProject.c,79 :: 		byteH = 0xA7;
 	MOVLW       167
 	MOVWF       _byteH+0 
-;MyProject.c,80 :: 		byteL  = 0x38;
+;MyProject.c,80 :: 		byteL = 0x38;                                                              //110Hz
 	MOVLW       56
 	MOVWF       _byteL+0 
-;MyProject.c,82 :: 		while(1)
+;MyProject.c,93 :: 		dir1 = 0x00;
+	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,94 :: 		dir2 = 0x00;
+	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,96 :: 		while(1)
 L_main1:
-;MyProject.c,84 :: 		RD0_bit = ~RD0_bit;
-	BTG         RD0_bit+0, BitPos(RD0_bit+0) 
-;MyProject.c,85 :: 		RD1_bit = ~RD1_bit;
-	BTG         RD1_bit+0, BitPos(RD1_bit+0) 
-;MyProject.c,87 :: 		delay_ms(4000);
-	MOVLW       102
+;MyProject.c,98 :: 		if(sens1)
+	BTFSS       RD2_bit+0, BitPos(RD2_bit+0) 
+	GOTO        L_main3
+;MyProject.c,100 :: 		TMR0ON_bit = 0x00;
+	BCF         TMR0ON_bit+0, BitPos(TMR0ON_bit+0) 
+;MyProject.c,101 :: 		vel1 = 0x00;
+	BCF         LATD6_bit+0, BitPos(LATD6_bit+0) 
+;MyProject.c,102 :: 		vel2 = 0x00;
+	BCF         LATD7_bit+0, BitPos(LATD7_bit+0) 
+;MyProject.c,103 :: 		delay_ms(1000);
+	MOVLW       26
 	MOVWF       R11, 0
-	MOVLW       118
+	MOVLW       94
 	MOVWF       R12, 0
-	MOVLW       193
+	MOVLW       110
 	MOVWF       R13, 0
-L_main3:
+L_main4:
 	DECFSZ      R13, 1, 1
-	BRA         L_main3
+	BRA         L_main4
 	DECFSZ      R12, 1, 1
-	BRA         L_main3
+	BRA         L_main4
 	DECFSZ      R11, 1, 1
-	BRA         L_main3
-;MyProject.c,111 :: 		} //end while
+	BRA         L_main4
+	NOP
+;MyProject.c,104 :: 		dir1 = 0x01;
+	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,105 :: 		dir2 = 0x01;
+	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,106 :: 		TMR0ON_bit = 0x01;
+	BSF         TMR0ON_bit+0, BitPos(TMR0ON_bit+0) 
+;MyProject.c,107 :: 		delay_ms(1500);
+	MOVLW       39
+	MOVWF       R11, 0
+	MOVLW       13
+	MOVWF       R12, 0
+	MOVLW       38
+	MOVWF       R13, 0
+L_main5:
+	DECFSZ      R13, 1, 1
+	BRA         L_main5
+	DECFSZ      R12, 1, 1
+	BRA         L_main5
+	DECFSZ      R11, 1, 1
+	BRA         L_main5
+	NOP
+;MyProject.c,108 :: 		dir1 = 0x01;
+	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,109 :: 		dir2 = 0x00;
+	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,110 :: 		delay_ms (3800);
+	MOVLW       97
+	MOVWF       R11, 0
+	MOVLW       100
+	MOVWF       R12, 0
+	MOVLW       16
+	MOVWF       R13, 0
+L_main6:
+	DECFSZ      R13, 1, 1
+	BRA         L_main6
+	DECFSZ      R12, 1, 1
+	BRA         L_main6
+	DECFSZ      R11, 1, 1
+	BRA         L_main6
+	NOP
+;MyProject.c,111 :: 		dir1 = 0x00;
+	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,112 :: 		dir2 = 0x00;
+	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,113 :: 		} //end if sens1
+L_main3:
+;MyProject.c,115 :: 		if (sens2)
+	BTFSS       RD3_bit+0, BitPos(RD3_bit+0) 
+	GOTO        L_main7
+;MyProject.c,117 :: 		TMR0ON_bit = 0x00;
+	BCF         TMR0ON_bit+0, BitPos(TMR0ON_bit+0) 
+;MyProject.c,118 :: 		vel1 = 0x00;
+	BCF         LATD6_bit+0, BitPos(LATD6_bit+0) 
+;MyProject.c,119 :: 		vel2 = 0x00;
+	BCF         LATD7_bit+0, BitPos(LATD7_bit+0) 
+;MyProject.c,120 :: 		delay_ms(1000);
+	MOVLW       26
+	MOVWF       R11, 0
+	MOVLW       94
+	MOVWF       R12, 0
+	MOVLW       110
+	MOVWF       R13, 0
+L_main8:
+	DECFSZ      R13, 1, 1
+	BRA         L_main8
+	DECFSZ      R12, 1, 1
+	BRA         L_main8
+	DECFSZ      R11, 1, 1
+	BRA         L_main8
+	NOP
+;MyProject.c,121 :: 		dir1 = 0x01;
+	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,122 :: 		dir2 = 0x01;
+	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,123 :: 		TMR0ON_bit = 0x01;
+	BSF         TMR0ON_bit+0, BitPos(TMR0ON_bit+0) 
+;MyProject.c,124 :: 		delay_ms(1500);
+	MOVLW       39
+	MOVWF       R11, 0
+	MOVLW       13
+	MOVWF       R12, 0
+	MOVLW       38
+	MOVWF       R13, 0
+L_main9:
+	DECFSZ      R13, 1, 1
+	BRA         L_main9
+	DECFSZ      R12, 1, 1
+	BRA         L_main9
+	DECFSZ      R11, 1, 1
+	BRA         L_main9
+	NOP
+;MyProject.c,125 :: 		dir1 = 0x00;
+	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,126 :: 		dir2 = 0x01;
+	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,127 :: 		delay_ms (3800);
+	MOVLW       97
+	MOVWF       R11, 0
+	MOVLW       100
+	MOVWF       R12, 0
+	MOVLW       16
+	MOVWF       R13, 0
+L_main10:
+	DECFSZ      R13, 1, 1
+	BRA         L_main10
+	DECFSZ      R12, 1, 1
+	BRA         L_main10
+	DECFSZ      R11, 1, 1
+	BRA         L_main10
+	NOP
+;MyProject.c,128 :: 		dir1 = 0x00;
+	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,129 :: 		dir2 = 0x00;
+	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,130 :: 		} //end if sens2
+L_main7:
+;MyProject.c,132 :: 		} //end while
 	GOTO        L_main1
-;MyProject.c,112 :: 		} //end main
+;MyProject.c,133 :: 		} //end main
 L_end_main:
 	GOTO        $+0
 ; end of _main
