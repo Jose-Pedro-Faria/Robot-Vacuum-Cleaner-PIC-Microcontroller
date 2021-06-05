@@ -42,47 +42,14 @@ void main()
  PORTD = 0x3C;
  ADCON1 = 0x0F;
 
- byteH = 0xA7;
- byteL = 0x38;
-#line 93 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
+ byteH = 0xB4;
+ byteL = 0xE1;
+#line 96 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
   LATD0_bit  = 0x00;
-  LATD1_bit  = 0x00;
+  LATD1_bit  = 0x01;
 
  while(1)
  {
- if( RD2_bit )
- {
- TMR0ON_bit = 0x00;
-  LATD6_bit  = 0x00;
-  LATD7_bit  = 0x00;
- delay_ms(1000);
-  LATD0_bit  = 0x01;
-  LATD1_bit  = 0x01;
- TMR0ON_bit = 0x01;
- delay_ms(1500);
-  LATD0_bit  = 0x01;
-  LATD1_bit  = 0x00;
- delay_ms (3800);
-  LATD0_bit  = 0x00;
-  LATD1_bit  = 0x00;
- }
-
- if ( RD3_bit )
- {
- TMR0ON_bit = 0x00;
-  LATD6_bit  = 0x00;
-  LATD7_bit  = 0x00;
- delay_ms(1000);
-  LATD0_bit  = 0x01;
-  LATD1_bit  = 0x01;
- TMR0ON_bit = 0x01;
- delay_ms(1500);
-  LATD0_bit  = 0x00;
-  LATD1_bit  = 0x01;
- delay_ms (3800);
-  LATD0_bit  = 0x00;
-  LATD1_bit  = 0x00;
- }
-
+#line 137 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
  }
 }

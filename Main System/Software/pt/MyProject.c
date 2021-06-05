@@ -76,10 +76,13 @@ void main()
      PORTD   = 0x3C;                                                            //Inicializa PORTD
      ADCON1  = 0x0F;                                                            //Configura os pinos do PORTB como digitais
      
+     byteH  = 0xB4;                                                            //130Hz
+     byteL  = 0xE1;
+      
+     /*
      byteH = 0xA7;
      byteL = 0x38;                                                              //110Hz
 
-     /*
       byteH  = 0x77;                                                            //70Hz
       byteL  = 0x48;
 
@@ -91,10 +94,11 @@ void main()
       */
       
       dir1 = 0x00;
-      dir2 = 0x00;
+      dir2 = 0x01;
      
      while(1)
      {
+     /*
       if(sens1)
       {
        TMR0ON_bit = 0x00;
@@ -102,14 +106,14 @@ void main()
        vel2 = 0x00;
        delay_ms(1000);
        dir1 = 0x01;
-       dir2 = 0x01;
+       dir2 = 0x00;
        TMR0ON_bit = 0x01;
        delay_ms(1500);
-       dir1 = 0x01;
-       dir2 = 0x00;
+       dir1 = 0x00;
+       dir2 = 0x01;
        delay_ms (3800);
        dir1 = 0x00;
-       dir2 = 0x00;
+       dir2 = 0x01;
       } //end if sens1
       
       if (sens2)
@@ -129,6 +133,7 @@ void main()
        dir2 = 0x00;
       } //end if sens2
       
+      */
      } //end while
 } //end main
 
