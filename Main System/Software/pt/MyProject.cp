@@ -15,7 +15,9 @@
  sbit LCD_D7_Direction at TRISB5_bit;
 #line 39 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
  unsigned char byteH = 0x77,
- byteL = 0x48;
+ byteL = 0x48,
+ flags = 0x00;
+
 
 
  void voltmeter();
@@ -23,14 +25,23 @@
 
  void interrupt()
  {
+ static int lcd_upt = 0;
+
  if(TMR0IF_bit)
  {
  TMR0IF_bit = 0x00;
+ lcd_upt += 1;
  TMR0L = byteH;
  TMR0H = byteL;
 
   LATD6_bit  = ~ LATD6_bit ;
   LATD7_bit  = ~ LATD7_bit ;
+
+ if(lcd_upt == 333)
+ {
+ lcd_upt = 0;
+ flags = ~flags;
+ }
  }
  }
 
@@ -54,7 +65,13 @@ void main()
 
  TMR0L = 0x48;
  TMR0H = 0x77;
-#line 93 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
+
+
+ TRISA = 0xFF;
+ ADCON0 = 0x01;
+ ADCON1 = 0x0E;
+ ADCON2 = 0x18;
+#line 109 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
  TRISB = 0xC0;
  PORTB = 0xC0;
  TRISD = 0x3C;
@@ -63,7 +80,7 @@ void main()
 
  byteH = 0xB4;
  byteL = 0xE1;
-#line 116 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
+#line 132 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
   LATD0_bit  = 0x01;
   LATD1_bit  = 0x00;
 
@@ -75,6 +92,7 @@ void main()
 
  while(1)
  {
+ if(flags) voltmeter();
 
  if( RD2_bit )
  {
@@ -111,4 +129,27 @@ void main()
  }
 
  }
+}
+
+
+
+
+
+
+
+
+void voltmeter()
+{
+ static float volts_f;
+ static int volts;
+
+ volts_f = ADC_Read(0)*0.048875;
+ volts_f *=2.8;
+ volts = (int)volts_f;
+
+ Lcd_Chr(2,1,((char)volts/100)+0x30);
+ Lcd_Chr_cp( ((char)volts&100/10)+0x30);
+ Lcd_Chr_cp('.');
+ Lcd_Chr_cp( ((char)volts&10)+0x30);
+ Lcd_Chr_cp('V');
 }

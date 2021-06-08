@@ -43,7 +43,8 @@ Count=0
 [Useses]
 File0=Lcd
 File1=Lcd_Constants
-Count=2
+File2=ADC
+Count=3
 [INTERRUPT_DEFS]
 VECTOR_MODE=0
 IVT_BASE=00000008
@@ -52,7 +53,8 @@ IVT_BASE=00000008
 Count=1
 [LIB_EXPANDED_NODES]
 0=mikroE Libraries
-Count=1
+1=System Libraries
+Count=2
 [PROGRAMMER_TYPE]
 Value=mikroE mikroProg
 [CODEGRIP_OPTIONS]

@@ -36,8 +36,10 @@
  #define         sens2         RD3_bit                                          //sensor 2 (Teste)
 
  //---Variáveis Globais---
- unsigned char byteH      = 0x77,
-               byteL      = 0x48;
+ unsigned char byteH      = 0x77,                                               //Byte mais sifnificativo overflow TM0
+               byteL      = 0x48,                                               //Byte menos sifnificativo overflow TM0
+               flags      = 0x00;                                               // registador flags auxiliares
+
 
  //---Funções---
  void voltmeter();
@@ -45,14 +47,23 @@
  //--Interrupções---
  void interrupt()
  {
+      static int lcd_upt = 0;                                                   //variável local para atualização do display
+      
       if(TMR0IF_bit)                                                            //Houve overflow do Timer0?
       {                                                                         //Sim
          TMR0IF_bit = 0x00;                                                     //Limpa Flag
+         lcd_upt   += 1;                                                        //incrementa 1
          TMR0L      = byteH;                                                    //Reinicia byte menos sifnificativo do Timer0
          TMR0H      = byteL;                                                    //Reinicia byte mais significativo do Timer0
 
          vel1       = ~vel1;                                                    //Gera clock para velocidade do motor1
          vel2       = ~vel2;                                                    //Gera clock para velocidade do motor2
+         
+         if(lcd_upt == 333)                                                     //Lcd_upt = 333 (numero de incrementos do timer0 necessários para contar 1s)
+         {                                                                      //sim
+          lcd_upt   = 0;                                                        //reseta a variável
+          flags     = ~flags;                                                   //Inverte o estado de flags (o registador inteiro)
+         } //end if lcd_upt
       } //end if TMR0IF
  } //end interrupt
 
@@ -77,6 +88,11 @@ void main()
      TMR0L    = 0x48;                                                           //byte menos significativo      0x48
      TMR0H    = 0x77;                                                           //byte mais significativo       0x77
      // --
+
+     TRISA    = 0xFF;
+     ADCON0   = 0x01;                                                           //Ligar o conversor A/C
+     ADCON1   = 0x0E;                                                           //Apenas o AN0 como analógico
+     ADCON2   = 0x18;
 
      //--Equação para Estouro do Timer0--
      //
@@ -124,6 +140,7 @@ void main()
      
      while(1)
      {
+      if(flags) voltmeter();
 
       if(sens1)                                                                 //Sensor da Direita
       {
@@ -161,6 +178,31 @@ void main()
       
      } //end while
 } //end main
+
+//==============================================================================
+//---Funções---
+
+//==============================================================================
+//---Voltmeter---
+//Mede a tensão da bateria, imprime o valor no display e tomada de decisão de tensão baixa
+
+void voltmeter()
+{
+ static float volts_f;
+ static int   volts;
+ 
+ volts_f = ADC_Read(0)*0.048875;
+ volts_f *=2.8;
+ volts = (int)volts_f;
+ 
+ Lcd_Chr(2,1,((char)volts/100)+0x30);
+ Lcd_Chr_cp( ((char)volts&100/10)+0x30);
+ Lcd_Chr_cp('.');
+ Lcd_Chr_cp( ((char)volts&10)+0x30);
+ Lcd_Chr_cp('V');
+}
+
+
 
 
 //==============================================================================

@@ -19,6 +19,10 @@ __fzins
 __low_savebsr
 __low_savestatus
 __low_savewreg
+_adc_external_ref
+_adc_external_vrefh
+_adc_external_vrefl
+_adc_internal_ref
 _ch
 _command
 _lcd_blink_cursor_on
@@ -56,6 +60,11 @@ acqt2
 acqt2_bit
 acss
 acss_bit
+adc_get_sample
+adc_get_sample_ptr
+adc_init
+adc_init_advanced
+adc_read
 adcon0
 adcon1
 adcon2
@@ -350,6 +359,7 @@ fast
 ferr
 ferr_bit
 fixsign32
+flags
 flt0
 flt0_bit
 flts
@@ -1291,8 +1301,10 @@ vdelay_advanced_ms
 vdelay_ms
 vdirmag
 vdirmag_bit
+voltmeter
 vpp
 vpp_bit
+vref_mask
 vrefn
 vrefn_bit
 vrefp
