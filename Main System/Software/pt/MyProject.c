@@ -39,6 +39,9 @@
  unsigned char byteH      = 0x77,
                byteL      = 0x48;
 
+ //---Funções---
+ void voltmeter();
+
  //--Interrupções---
  void interrupt()
  {
@@ -110,8 +113,8 @@ void main()
       byteL  = 0xE1;
       */
       
-      dir1 = 0x00;                                                              //Define o bit de direção inicial
-      dir2 = 0x01;                                                              //Define o bit de direção inicial
+      dir1 = 0x01;                                                              //Define o bit de direção inicial
+      dir2 = 0x00;                                                              //Define o bit de direção inicial
       
       Lcd_Init();
       Lcd_Cmd(_LCD_CLEAR);
@@ -121,42 +124,41 @@ void main()
      
      while(1)
      {
-     /*
-      if(sens1)
+
+      if(sens1)                                                                 //Sensor da Direita
       {
        TMR0ON_bit = 0x00;
        vel1 = 0x00;
        vel2 = 0x00;
-       delay_ms(1000);
+       delay_ms(1200);                                                          //Robo STOP
        dir1 = 0x01;
        dir2 = 0x00;
        TMR0ON_bit = 0x01;
-       delay_ms(1500);
+       delay_ms(1500);                                                          //Robo anda para trás
        dir1 = 0x00;
        dir2 = 0x01;
-       delay_ms (3800);
-       dir1 = 0x00;
-       dir2 = 0x01;
+       delay_ms (3800);                                                         //Desvio Robo
+       dir1 = 0x01;
+       dir2 = 0x00;
       } //end if sens1
       
-      if (sens2)
+      if (sens2)                                                                //Sensore da Esquerda
       {
        TMR0ON_bit = 0x00;
        vel1 = 0x00;
        vel2 = 0x00;
-       delay_ms(1000);
+       delay_ms(1000);                                                          //Robo STOP
        dir1 = 0x01;
-       dir2 = 0x01;
-       TMR0ON_bit = 0x01;
-       delay_ms(1500);
-       dir1 = 0x00;
-       dir2 = 0x01;
-       delay_ms (3800);
-       dir1 = 0x00;
        dir2 = 0x00;
+       TMR0ON_bit = 0x01;
+       delay_ms(1500);                                                          //Robo anda para trás
+       dir1 = 0x00;
+       dir2 = 0x01;
+       delay_ms (3800);                                                         //Desvio Robo
+       dir1 = 0x00;
+       dir2 = 0x01;
       } //end if sens2
       
-      */
      } //end while
 } //end main
 

@@ -18,6 +18,9 @@
  byteL = 0x48;
 
 
+ void voltmeter();
+
+
  void interrupt()
  {
  if(TMR0IF_bit)
@@ -51,7 +54,7 @@ void main()
 
  TMR0L = 0x48;
  TMR0H = 0x77;
-#line 90 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
+#line 93 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
  TRISB = 0xC0;
  PORTB = 0xC0;
  TRISD = 0x3C;
@@ -60,15 +63,52 @@ void main()
 
  byteH = 0xB4;
  byteL = 0xE1;
-#line 113 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
-  LATD0_bit  = 0x00;
-  LATD1_bit  = 0x01;
+#line 116 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
+  LATD0_bit  = 0x01;
+  LATD1_bit  = 0x00;
 
  Lcd_Init();
+ Lcd_Cmd(_LCD_CLEAR);
+ Lcd_Cmd(_LCD_CURSOR_OFF);
+
  Lcd_Out(1,1,"TESTE Display");
 
  while(1)
  {
-#line 157 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
+
+ if( RD2_bit )
+ {
+ TMR0ON_bit = 0x00;
+  LATD6_bit  = 0x00;
+  LATD7_bit  = 0x00;
+ delay_ms(1200);
+  LATD0_bit  = 0x01;
+  LATD1_bit  = 0x00;
+ TMR0ON_bit = 0x01;
+ delay_ms(1500);
+  LATD0_bit  = 0x00;
+  LATD1_bit  = 0x01;
+ delay_ms (3800);
+  LATD0_bit  = 0x01;
+  LATD1_bit  = 0x00;
+ }
+
+ if ( RD3_bit )
+ {
+ TMR0ON_bit = 0x00;
+  LATD6_bit  = 0x00;
+  LATD7_bit  = 0x00;
+ delay_ms(1000);
+  LATD0_bit  = 0x01;
+  LATD1_bit  = 0x00;
+ TMR0ON_bit = 0x01;
+ delay_ms(1500);
+  LATD0_bit  = 0x00;
+  LATD1_bit  = 0x01;
+ delay_ms (3800);
+  LATD0_bit  = 0x00;
+  LATD1_bit  = 0x01;
+ }
+
  }
 }
