@@ -88,7 +88,7 @@ void main()
  Lcd_Cmd(_LCD_CLEAR);
  Lcd_Cmd(_LCD_CURSOR_OFF);
 
- Lcd_Out(1,1,"TESTE Display");
+ Lcd_Out(1,1,"Jose Faria");
 
  while(1)
  {

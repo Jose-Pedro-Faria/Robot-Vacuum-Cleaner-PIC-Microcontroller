@@ -112,7 +112,7 @@ _main:
 	MOVLW       12
 	MOVWF       FARG_Lcd_Cmd_out_char+0 
 	CALL        _Lcd_Cmd+0, 0
-;MyProject.c,139 :: 		Lcd_Out(1,1,"TESTE Display");
+;MyProject.c,139 :: 		Lcd_Out(1,1,"Jose Faria");
 	MOVLW       1
 	MOVWF       FARG_Lcd_Out_row+0 
 	MOVLW       1
