@@ -139,12 +139,12 @@ L_main4:
 	BCF         LATD6_bit+0, BitPos(LATD6_bit+0) 
 ;MyProject.c,149 :: 		vel2 = 0x00;
 	BCF         LATD7_bit+0, BitPos(LATD7_bit+0) 
-;MyProject.c,150 :: 		delay_ms(1200);                                                          //Robo STOP
-	MOVLW       31
+;MyProject.c,150 :: 		delay_ms(2000);                                                          //Robo STOP
+	MOVLW       51
 	MOVWF       R11, 0
-	MOVLW       113
+	MOVLW       187
 	MOVWF       R12, 0
-	MOVLW       30
+	MOVLW       223
 	MOVWF       R13, 0
 L_main6:
 	DECFSZ      R13, 1, 1
@@ -154,18 +154,19 @@ L_main6:
 	DECFSZ      R11, 1, 1
 	BRA         L_main6
 	NOP
-;MyProject.c,151 :: 		dir1 = 0x01;
-	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,152 :: 		dir2 = 0x00;
-	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+	NOP
+;MyProject.c,151 :: 		dir1 = 0x00;
+	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,152 :: 		dir2 = 0x01;
+	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
 ;MyProject.c,153 :: 		TMR0ON_bit = 0x01;
 	BSF         TMR0ON_bit+0, BitPos(TMR0ON_bit+0) 
-;MyProject.c,154 :: 		delay_ms(1500);                                                          //Robo anda para trás
-	MOVLW       39
+;MyProject.c,154 :: 		delay_ms(2000);                                                          //Robo anda para trás
+	MOVLW       51
 	MOVWF       R11, 0
-	MOVLW       13
+	MOVLW       187
 	MOVWF       R12, 0
-	MOVLW       38
+	MOVLW       223
 	MOVWF       R13, 0
 L_main7:
 	DECFSZ      R13, 1, 1
@@ -175,16 +176,17 @@ L_main7:
 	DECFSZ      R11, 1, 1
 	BRA         L_main7
 	NOP
-;MyProject.c,155 :: 		dir1 = 0x00;
-	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+	NOP
+;MyProject.c,155 :: 		dir1 = 0x01;
+	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
 ;MyProject.c,156 :: 		dir2 = 0x01;
 	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
-;MyProject.c,157 :: 		delay_ms (3800);                                                         //Desvio Robo
-	MOVLW       97
+;MyProject.c,157 :: 		delay_ms (4000);                                                         //Desvio Robo
+	MOVLW       102
 	MOVWF       R11, 0
-	MOVLW       100
+	MOVLW       118
 	MOVWF       R12, 0
-	MOVLW       16
+	MOVLW       193
 	MOVWF       R13, 0
 L_main8:
 	DECFSZ      R13, 1, 1
@@ -193,7 +195,6 @@ L_main8:
 	BRA         L_main8
 	DECFSZ      R11, 1, 1
 	BRA         L_main8
-	NOP
 ;MyProject.c,158 :: 		dir1 = 0x01;
 	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
 ;MyProject.c,159 :: 		dir2 = 0x00;
@@ -209,12 +210,12 @@ L_main5:
 	BCF         LATD6_bit+0, BitPos(LATD6_bit+0) 
 ;MyProject.c,166 :: 		vel2 = 0x00;
 	BCF         LATD7_bit+0, BitPos(LATD7_bit+0) 
-;MyProject.c,167 :: 		delay_ms(1000);                                                          //Robo STOP
-	MOVLW       26
+;MyProject.c,167 :: 		delay_ms(2000);                                                          //Robo STOP
+	MOVLW       51
 	MOVWF       R11, 0
-	MOVLW       94
+	MOVLW       187
 	MOVWF       R12, 0
-	MOVLW       110
+	MOVLW       223
 	MOVWF       R13, 0
 L_main10:
 	DECFSZ      R13, 1, 1
@@ -224,18 +225,19 @@ L_main10:
 	DECFSZ      R11, 1, 1
 	BRA         L_main10
 	NOP
-;MyProject.c,168 :: 		dir1 = 0x01;
-	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,169 :: 		dir2 = 0x00;
-	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+	NOP
+;MyProject.c,168 :: 		dir1 = 0x00;
+	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,169 :: 		dir2 = 0x01;
+	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
 ;MyProject.c,170 :: 		TMR0ON_bit = 0x01;
 	BSF         TMR0ON_bit+0, BitPos(TMR0ON_bit+0) 
-;MyProject.c,171 :: 		delay_ms(1500);                                                          //Robo anda para trás
-	MOVLW       39
+;MyProject.c,171 :: 		delay_ms(2000);                                                          //Robo anda para trás
+	MOVLW       51
 	MOVWF       R11, 0
-	MOVLW       13
+	MOVLW       187
 	MOVWF       R12, 0
-	MOVLW       38
+	MOVLW       223
 	MOVWF       R13, 0
 L_main11:
 	DECFSZ      R13, 1, 1
@@ -245,16 +247,17 @@ L_main11:
 	DECFSZ      R11, 1, 1
 	BRA         L_main11
 	NOP
+	NOP
 ;MyProject.c,172 :: 		dir1 = 0x00;
 	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
 ;MyProject.c,173 :: 		dir2 = 0x01;
 	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
-;MyProject.c,174 :: 		delay_ms (3800);                                                         //Desvio Robo
-	MOVLW       97
+;MyProject.c,174 :: 		delay_ms (4000);                                                         //Desvio Robo
+	MOVLW       102
 	MOVWF       R11, 0
-	MOVLW       100
+	MOVLW       118
 	MOVWF       R12, 0
-	MOVLW       16
+	MOVLW       193
 	MOVWF       R13, 0
 L_main12:
 	DECFSZ      R13, 1, 1
@@ -263,11 +266,10 @@ L_main12:
 	BRA         L_main12
 	DECFSZ      R11, 1, 1
 	BRA         L_main12
-	NOP
-;MyProject.c,175 :: 		dir1 = 0x00;
-	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,176 :: 		dir2 = 0x01;
-	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,175 :: 		dir1 = 0x01;
+	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,176 :: 		dir2 = 0x00;
+	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
 ;MyProject.c,177 :: 		} //end if sens2
 L_main9:
 ;MyProject.c,179 :: 		} //end while

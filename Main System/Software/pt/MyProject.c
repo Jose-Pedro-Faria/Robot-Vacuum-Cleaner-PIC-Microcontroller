@@ -147,14 +147,14 @@ void main()
        TMR0ON_bit = 0x00;
        vel1 = 0x00;
        vel2 = 0x00;
-       delay_ms(1200);                                                          //Robo STOP
-       dir1 = 0x01;
-       dir2 = 0x00;
-       TMR0ON_bit = 0x01;
-       delay_ms(1500);                                                          //Robo anda para trás
+       delay_ms(2000);                                                          //Robo STOP
        dir1 = 0x00;
        dir2 = 0x01;
-       delay_ms (3800);                                                         //Desvio Robo
+       TMR0ON_bit = 0x01;
+       delay_ms(2000);                                                          //Robo anda para trás
+       dir1 = 0x01;
+       dir2 = 0x01;
+       delay_ms (4000);                                                         //Desvio Robo
        dir1 = 0x01;
        dir2 = 0x00;
       } //end if sens1
@@ -164,16 +164,16 @@ void main()
        TMR0ON_bit = 0x00;
        vel1 = 0x00;
        vel2 = 0x00;
-       delay_ms(1000);                                                          //Robo STOP
+       delay_ms(2000);                                                          //Robo STOP
+       dir1 = 0x00;
+       dir2 = 0x01;
+       TMR0ON_bit = 0x01;
+       delay_ms(2000);                                                          //Robo anda para trás
+       dir1 = 0x00;
+       dir2 = 0x01;
+       delay_ms (4000);                                                         //Desvio Robo
        dir1 = 0x01;
        dir2 = 0x00;
-       TMR0ON_bit = 0x01;
-       delay_ms(1500);                                                          //Robo anda para trás
-       dir1 = 0x00;
-       dir2 = 0x01;
-       delay_ms (3800);                                                         //Desvio Robo
-       dir1 = 0x00;
-       dir2 = 0x01;
       } //end if sens2
       
      } //end while
