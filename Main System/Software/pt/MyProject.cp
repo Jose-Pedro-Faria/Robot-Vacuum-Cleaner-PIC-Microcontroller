@@ -81,8 +81,8 @@ void main()
  byteH = 0xB4;
  byteL = 0xE1;
 #line 132 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
-  LATD0_bit  = 0x01;
-  LATD1_bit  = 0x00;
+  LATD0_bit  = 0x00;
+  LATD1_bit  = 0x01;
 
  Lcd_Init();
  Lcd_Cmd(_LCD_CLEAR);
@@ -100,15 +100,15 @@ void main()
   LATD6_bit  = 0x00;
   LATD7_bit  = 0x00;
  delay_ms(2000);
-  LATD0_bit  = 0x00;
-  LATD1_bit  = 0x01;
+  LATD0_bit  = 0x01;
+  LATD1_bit  = 0x00;
  TMR0ON_bit = 0x01;
- delay_ms(2000);
+ delay_ms(1200);
   LATD0_bit  = 0x01;
   LATD1_bit  = 0x01;
  delay_ms (4000);
-  LATD0_bit  = 0x01;
-  LATD1_bit  = 0x00;
+  LATD0_bit  = 0x00;
+  LATD1_bit  = 0x01;
  }
 
  if ( RD3_bit )
@@ -117,15 +117,15 @@ void main()
   LATD6_bit  = 0x00;
   LATD7_bit  = 0x00;
  delay_ms(2000);
-  LATD0_bit  = 0x00;
-  LATD1_bit  = 0x01;
- TMR0ON_bit = 0x01;
- delay_ms(2000);
-  LATD0_bit  = 0x00;
-  LATD1_bit  = 0x01;
- delay_ms (4000);
   LATD0_bit  = 0x01;
   LATD1_bit  = 0x00;
+ TMR0ON_bit = 0x01;
+ delay_ms(1200);
+  LATD0_bit  = 0x00;
+  LATD1_bit  = 0x00;
+ delay_ms (4000);
+  LATD0_bit  = 0x00;
+  LATD1_bit  = 0x01;
  }
 
  }

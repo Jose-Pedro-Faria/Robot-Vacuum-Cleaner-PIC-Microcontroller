@@ -98,10 +98,10 @@ _main:
 ;MyProject.c,116 :: 		byteL  = 0xE1;
 	MOVLW       225
 	MOVWF       _byteL+0 
-;MyProject.c,132 :: 		dir1 = 0x01;                                                              //Define o bit de direção inicial
-	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,133 :: 		dir2 = 0x00;                                                              //Define o bit de direção inicial
-	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,132 :: 		dir1 = 0x00;                                                              //Define o bit de direção inicial
+	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,133 :: 		dir2 = 0x01;                                                              //Define o bit de direção inicial
+	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
 ;MyProject.c,135 :: 		Lcd_Init();
 	CALL        _Lcd_Init+0, 0
 ;MyProject.c,136 :: 		Lcd_Cmd(_LCD_CLEAR);
@@ -155,18 +155,18 @@ L_main6:
 	BRA         L_main6
 	NOP
 	NOP
-;MyProject.c,151 :: 		dir1 = 0x00;
-	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,152 :: 		dir2 = 0x01;
-	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,151 :: 		dir1 = 0x01;
+	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,152 :: 		dir2 = 0x00;
+	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
 ;MyProject.c,153 :: 		TMR0ON_bit = 0x01;
 	BSF         TMR0ON_bit+0, BitPos(TMR0ON_bit+0) 
-;MyProject.c,154 :: 		delay_ms(2000);                                                          //Robo anda para trás
-	MOVLW       51
+;MyProject.c,154 :: 		delay_ms(1200);                                                          //Robo anda para trás
+	MOVLW       31
 	MOVWF       R11, 0
-	MOVLW       187
+	MOVLW       113
 	MOVWF       R12, 0
-	MOVLW       223
+	MOVLW       30
 	MOVWF       R13, 0
 L_main7:
 	DECFSZ      R13, 1, 1
@@ -175,7 +175,6 @@ L_main7:
 	BRA         L_main7
 	DECFSZ      R11, 1, 1
 	BRA         L_main7
-	NOP
 	NOP
 ;MyProject.c,155 :: 		dir1 = 0x01;
 	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
@@ -195,10 +194,10 @@ L_main8:
 	BRA         L_main8
 	DECFSZ      R11, 1, 1
 	BRA         L_main8
-;MyProject.c,158 :: 		dir1 = 0x01;
-	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,159 :: 		dir2 = 0x00;
-	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,158 :: 		dir1 = 0x00;
+	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,159 :: 		dir2 = 0x01;
+	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
 ;MyProject.c,160 :: 		} //end if sens1
 L_main5:
 ;MyProject.c,162 :: 		if (sens2)                                                                //Sensore da Esquerda
@@ -226,18 +225,18 @@ L_main10:
 	BRA         L_main10
 	NOP
 	NOP
-;MyProject.c,168 :: 		dir1 = 0x00;
-	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,169 :: 		dir2 = 0x01;
-	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,168 :: 		dir1 = 0x01;
+	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,169 :: 		dir2 = 0x00;
+	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
 ;MyProject.c,170 :: 		TMR0ON_bit = 0x01;
 	BSF         TMR0ON_bit+0, BitPos(TMR0ON_bit+0) 
-;MyProject.c,171 :: 		delay_ms(2000);                                                          //Robo anda para trás
-	MOVLW       51
+;MyProject.c,171 :: 		delay_ms(1200);                                                          //Robo anda para trás
+	MOVLW       31
 	MOVWF       R11, 0
-	MOVLW       187
+	MOVLW       113
 	MOVWF       R12, 0
-	MOVLW       223
+	MOVLW       30
 	MOVWF       R13, 0
 L_main11:
 	DECFSZ      R13, 1, 1
@@ -247,11 +246,10 @@ L_main11:
 	DECFSZ      R11, 1, 1
 	BRA         L_main11
 	NOP
-	NOP
 ;MyProject.c,172 :: 		dir1 = 0x00;
 	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,173 :: 		dir2 = 0x01;
-	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,173 :: 		dir2 = 0x00;
+	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
 ;MyProject.c,174 :: 		delay_ms (4000);                                                         //Desvio Robo
 	MOVLW       102
 	MOVWF       R11, 0
@@ -266,10 +264,10 @@ L_main12:
 	BRA         L_main12
 	DECFSZ      R11, 1, 1
 	BRA         L_main12
-;MyProject.c,175 :: 		dir1 = 0x01;
-	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,176 :: 		dir2 = 0x00;
-	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,175 :: 		dir1 = 0x00;
+	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,176 :: 		dir2 = 0x01;
+	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
 ;MyProject.c,177 :: 		} //end if sens2
 L_main9:
 ;MyProject.c,179 :: 		} //end while
