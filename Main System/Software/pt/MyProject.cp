@@ -25,23 +25,18 @@
 
  void interrupt()
  {
- static int lcd_upt = 0;
+
 
  if(TMR0IF_bit)
  {
  TMR0IF_bit = 0x00;
- lcd_upt += 1;
+
  TMR0L = byteH;
  TMR0H = byteL;
 
   LATD6_bit  = ~ LATD6_bit ;
   LATD7_bit  = ~ LATD7_bit ;
-
- if(lcd_upt == 333)
- {
- lcd_upt = 0;
- flags = ~flags;
- }
+#line 69 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
  }
  }
 
@@ -71,28 +66,28 @@ void main()
  ADCON0 = 0x01;
  ADCON1 = 0x0E;
  ADCON2 = 0x18;
-#line 109 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
+#line 111 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
  TRISB = 0xC0;
  PORTB = 0xC0;
  TRISD = 0x3C;
  PORTD = 0x3C;
  ADCON1 = 0x0F;
 
- byteH = 0xB4;
- byteL = 0xE1;
-#line 132 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
+ byteH = 0x77;
+ byteL = 0x48;
+#line 134 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
 
- Lcd_Init();
- Lcd_Cmd(_LCD_CLEAR);
- Lcd_Cmd(_LCD_CURSOR_OFF);
 
- Lcd_Out(1,1,"Jose Faria");
+
+
+
+
 
  while(1)
  {
- if(flags) voltmeter();
+
 
  if( RD2_bit )
  {
@@ -146,10 +141,5 @@ void voltmeter()
  volts_f = ADC_Read(0)*0.048875;
  volts_f *=2.8;
  volts = (int)volts_f;
-
- Lcd_Chr(2,1,((char)volts/100)+0x30);
- Lcd_Chr_cp( ((char)volts&100/10)+0x30);
- Lcd_Chr_cp('.');
- Lcd_Chr_cp( ((char)volts&10)+0x30);
- Lcd_Chr_cp('V');
+#line 206 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
 }

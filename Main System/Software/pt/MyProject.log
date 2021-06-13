@@ -1,12 +1,13 @@
 0	1	mikroCPIC1618.exe -MSF -DBG -pP18F4520 -DL -O11111114 -fo20 -N"C:\Users\zecap\Documents\GitHub\Robot-Vacuum-Cleaner-PIC-Microcontroller\Main System\Software\pt\MyProject.mcppi" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\uses\P18\" -SP"C:\Users\zecap\Documents\GitHub\Robot-Vacuum-Cleaner-PIC-Microcontroller\Main System\Software\pt\" -IP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\uses\P18\" "MyProject.c" "__Lib_Math.mcl" "__Lib_MathDouble.mcl" "__Lib_System.mcl" "__Lib_Delays.mcl" "__Lib_ADC_A_D.mcl" "__Lib_LcdConsts.mcl" "__Lib_Lcd.mcl"	 
 hint: 0	1139	Available RAM: 1515 [bytes], Available ROM: 32768 [bytes]	 
 diagnostics: 0	122	Compilation Started	MyProject.c
-diagnostics: 203	123	Compiled Successfully	MyProject.c
-hint: 191	1164	Variable 'volts_f' has been eliminated by optimizer	MyProject.c
+diagnostics: 206	123	Compiled Successfully	MyProject.c
+hint: 193	1164	Variable 'volts_f' has been eliminated by optimizer	MyProject.c
+hint: 194	1164	Variable 'volts' has been eliminated by optimizer	MyProject.c
 diagnostics: 0	127	All files Compiled in 125 ms	 
-hint: 0	1144	Used RAM (bytes): 28 (2%)  Free RAM (bytes): 1487 (98%)	Used RAM (bytes): 28 (2%)  Free RAM (bytes): 1487 (98%)
-hint: 0	1144	Used ROM (bytes): 1947 (6%)  Free ROM (bytes): 30821 (94%)	Used ROM (bytes): 1947 (6%)  Free ROM (bytes): 30821 (94%)
+hint: 0	1144	Used RAM (bytes): 2 (1%)  Free RAM (bytes): 1513 (99%)	Used RAM (bytes): 2 (1%)  Free RAM (bytes): 1513 (99%)
+hint: 0	1144	Used ROM (bytes): 326 (1%)  Free ROM (bytes): 32442 (99%)	Used ROM (bytes): 326 (1%)  Free ROM (bytes): 32442 (99%)
 diagnostics: 0	125	Project Linked Successfully	MyProject.mcppi
-diagnostics: 0	128	Linked in 31 ms	 
-diagnostics: 0	129	Project 'MyProject.mcppi' completed: 328 ms	 
-diagnostics: 0	103	Finished successfully: 12 jun 2021, 19:40:22	MyProject.mcppi
+diagnostics: 0	128	Linked in 16 ms	 
+diagnostics: 0	129	Project 'MyProject.mcppi' completed: 297 ms	 
+diagnostics: 0	103	Finished successfully: 13 jun 2021, 12:32:15	MyProject.mcppi

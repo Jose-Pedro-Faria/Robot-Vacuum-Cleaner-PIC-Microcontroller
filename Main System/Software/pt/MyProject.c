@@ -47,23 +47,25 @@
  //--Interrupções---
  void interrupt()
  {
-      static int lcd_upt = 0;                                                   //variável local para atualização do display
+      //static int lcd_upt = 0;                                                   //variável local para atualização do display
       
       if(TMR0IF_bit)                                                            //Houve overflow do Timer0?
       {                                                                         //Sim
          TMR0IF_bit = 0x00;                                                     //Limpa Flag
-         lcd_upt   += 1;                                                        //incrementa 1
+         //lcd_upt   += 1;                                                        //incrementa 1
          TMR0L      = byteH;                                                    //Reinicia byte menos sifnificativo do Timer0
          TMR0H      = byteL;                                                    //Reinicia byte mais significativo do Timer0
 
          vel1       = ~vel1;                                                    //Gera clock para velocidade do motor1
          vel2       = ~vel2;                                                    //Gera clock para velocidade do motor2
-         
+         /*
          if(lcd_upt == 333)                                                     //Lcd_upt = 333 (numero de incrementos do timer0 necessários para contar 1s)
          {                                                                      //sim
           lcd_upt   = 0;                                                        //reseta a variável
           flags     = ~flags;                                                   //Inverte o estado de flags (o registador inteiro)
+
          } //end if lcd_upt
+         */
       } //end if TMR0IF
  } //end interrupt
 
@@ -112,8 +114,8 @@ void main()
      PORTD   = 0x3C;                                                            //Inicializa PORTD
      ADCON1  = 0x0F;                                                            //Configura os pinos do PORTB como digitais
      
-     byteH  = 0xB4;                                                            //130Hz
-     byteL  = 0xE1;
+      byteH  = 0x77;                                                            //70Hz
+      byteL  = 0x48;
       
      /*
      byteH = 0xA7;
@@ -132,15 +134,15 @@ void main()
       dir1 = 0x00;                                                              //Define o bit de direção inicial
       dir2 = 0x01;                                                              //Define o bit de direção inicial
       
-      Lcd_Init();
-      Lcd_Cmd(_LCD_CLEAR);
-      Lcd_Cmd(_LCD_CURSOR_OFF);
+      //Lcd_Init();
+      //Lcd_Cmd(_LCD_CLEAR);
+      //Lcd_Cmd(_LCD_CURSOR_OFF);
 
-      Lcd_Out(1,1,"Jose Faria");
+      //Lcd_Out(1,1,"Jose Faria");
      
      while(1)
      {
-      if(flags) voltmeter();
+      //if(flags) voltmeter();
 
       if(sens1)                                                                 //Sensor da Direita
       {
@@ -152,8 +154,8 @@ void main()
        dir2 = 0x00;
        TMR0ON_bit = 0x01;
        delay_ms(1200);                                                          //Robo anda para trás
-       dir1 = 0x00;
-       dir2 = 0x00;
+       dir1 = 0x01;
+       dir2 = 0x01;
        delay_ms (4000);                                                         //Desvio Robo
        dir1 = 0x00;
        dir2 = 0x01;
@@ -169,8 +171,8 @@ void main()
        dir2 = 0x00;
        TMR0ON_bit = 0x01;
        delay_ms(1200);                                                          //Robo anda para trás
-       dir1 = 0x01;
-       dir2 = 0x01;
+       dir1 = 0x00;
+       dir2 = 0x00;
        delay_ms (4000);                                                         //Desvio Robo
        dir1 = 0x00;
        dir2 = 0x01;
@@ -194,12 +196,13 @@ void voltmeter()
  volts_f = ADC_Read(0)*0.048875;
  volts_f *=2.8;
  volts = (int)volts_f;
- 
+ /*
  Lcd_Chr(2,1,((char)volts/100)+0x30);
  Lcd_Chr_cp( ((char)volts&100/10)+0x30);
  Lcd_Chr_cp('.');
  Lcd_Chr_cp( ((char)volts&10)+0x30);
  Lcd_Chr_cp('V');
+ */
 }
 
 
