@@ -73,8 +73,8 @@ void main()
  PORTD = 0x3C;
  ADCON1 = 0x0F;
 
- byteH = 0x77;
- byteL = 0x48;
+ byteH = 0x93;
+ byteL = 0x9A;
 #line 134 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
@@ -87,42 +87,7 @@ void main()
 
  while(1)
  {
-
-
- if( RD2_bit )
- {
- TMR0ON_bit = 0x00;
-  LATD6_bit  = 0x00;
-  LATD7_bit  = 0x00;
- delay_ms(2000);
-  LATD0_bit  = 0x01;
-  LATD1_bit  = 0x00;
- TMR0ON_bit = 0x01;
- delay_ms(1200);
-  LATD0_bit  = 0x01;
-  LATD1_bit  = 0x01;
- delay_ms (4000);
-  LATD0_bit  = 0x00;
-  LATD1_bit  = 0x01;
- }
-
- if ( RD3_bit )
- {
- TMR0ON_bit = 0x00;
-  LATD6_bit  = 0x00;
-  LATD7_bit  = 0x00;
- delay_ms(2000);
-  LATD0_bit  = 0x01;
-  LATD1_bit  = 0x00;
- TMR0ON_bit = 0x01;
- delay_ms(1200);
-  LATD0_bit  = 0x00;
-  LATD1_bit  = 0x00;
- delay_ms (4000);
-  LATD0_bit  = 0x00;
-  LATD1_bit  = 0x01;
- }
-
+#line 183 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
  }
 }
 
@@ -141,5 +106,5 @@ void voltmeter()
  volts_f = ADC_Read(0)*0.048875;
  volts_f *=2.8;
  volts = (int)volts_f;
-#line 206 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
+#line 208 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt/MyProject.c"
 }

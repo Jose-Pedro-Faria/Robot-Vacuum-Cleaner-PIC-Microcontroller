@@ -114,8 +114,8 @@ void main()
      PORTD   = 0x3C;                                                            //Inicializa PORTD
      ADCON1  = 0x0F;                                                            //Configura os pinos do PORTB como digitais
      
-      byteH  = 0x77;                                                            //70Hz
-      byteL  = 0x48;
+      byteH  = 0x93;                                                            //90Hz
+      byteL  = 0x9A;
       
      /*
      byteH = 0xA7;
@@ -142,6 +142,8 @@ void main()
      
      while(1)
      {
+     
+     /*
       //if(flags) voltmeter();
 
       if(sens1)                                                                 //Sensor da Direita
@@ -177,7 +179,7 @@ void main()
        dir1 = 0x00;
        dir2 = 0x01;
       } //end if sens2
-      
+     */
      } //end while
 } //end main
 
