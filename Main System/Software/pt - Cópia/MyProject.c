@@ -122,12 +122,12 @@ void main()
      
 
      
-      byteH  = 0x93;                                                            //90Hz
-      byteL  = 0x9A;
+      byteH  = 0xB4;                                                            //130Hz
+      byteL  = 0xE1;
       
      /*
-     byteH = 0xA7;
-     byteL = 0x38;                                                              //110Hz
+     byteH = 0xA7;                                                              //110Hz
+     byteL = 0x38;
 
       byteH  = 0x77;                                                            //70Hz
       byteL  = 0x48;
@@ -215,16 +215,22 @@ void virardireita()
        TMR0ON_bit = 0x00;
        vel1 = 0x00;
        vel2 = 0x00;
-       delay_ms(2000);                                                          //Robo STOP
+       delay_ms(1500);                                                          //Robo STOP
        dir1 = 0x01;
        dir2 = 0x00;
        TMR0ON_bit = 0x01;
        delay_ms(1200);                                                          //Robo anda para trás
        dir1 = 0x01;
        dir2 = 0x01;
-       delay_ms (4000);                                                         //Desvio Robo
+       delay_ms (4400);                                                         //Desvio Robo
        dir1 = 0x00;
        dir2 = 0x01;
+       delay_ms(4000);                                                          //Anda em frente
+       dir1 = 0x01;
+       dir2 = 0x01;
+       delay_ms (4400);                                                         //Desvio Robo
+       dir1 = 0x00;
+       dir2 = 0x01;                                                             //Anda em frente
 }
 
 void viraresquerda()
@@ -232,16 +238,22 @@ void viraresquerda()
        TMR0ON_bit = 0x00;
        vel1 = 0x00;
        vel2 = 0x00;
-       delay_ms(2000);                                                          //Robo STOP
+       delay_ms(1500);                                                          //Robo STOP
        dir1 = 0x01;
        dir2 = 0x00;
        TMR0ON_bit = 0x01;
        delay_ms(1200);                                                          //Robo anda para trás
        dir1 = 0x00;
        dir2 = 0x00;
-       delay_ms (4000);                                                         //Desvio Robo
+       delay_ms (4400);                                                         //Desvio Robo
        dir1 = 0x00;
        dir2 = 0x01;
+       delay_ms(4000);                                                          //Anda em frente
+       dir1 = 0x00;
+       dir2 = 0x00;
+       delay_ms (4400);                                                         //Desvio Robo
+       dir1 = 0x00;
+       dir2 = 0x01;                                                             //Anda em frente
 }
 
 

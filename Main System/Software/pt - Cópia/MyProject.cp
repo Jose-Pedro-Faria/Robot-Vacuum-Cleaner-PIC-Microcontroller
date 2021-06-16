@@ -66,8 +66,8 @@ void main()
 
 
 
- byteH = 0x93;
- byteL = 0x9A;
+ byteH = 0xB4;
+ byteL = 0xE1;
 #line 142 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
@@ -139,14 +139,20 @@ void virardireita()
  TMR0ON_bit = 0x00;
   LATD6_bit  = 0x00;
   LATD7_bit  = 0x00;
- delay_ms(2000);
+ delay_ms(1500);
   LATD0_bit  = 0x01;
   LATD1_bit  = 0x00;
  TMR0ON_bit = 0x01;
  delay_ms(1200);
   LATD0_bit  = 0x01;
   LATD1_bit  = 0x01;
- delay_ms (4000);
+ delay_ms (4400);
+  LATD0_bit  = 0x00;
+  LATD1_bit  = 0x01;
+ delay_ms(4000);
+  LATD0_bit  = 0x01;
+  LATD1_bit  = 0x01;
+ delay_ms (4400);
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
 }
@@ -156,14 +162,20 @@ void viraresquerda()
  TMR0ON_bit = 0x00;
   LATD6_bit  = 0x00;
   LATD7_bit  = 0x00;
- delay_ms(2000);
+ delay_ms(1500);
   LATD0_bit  = 0x01;
   LATD1_bit  = 0x00;
  TMR0ON_bit = 0x01;
  delay_ms(1200);
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x00;
- delay_ms (4000);
+ delay_ms (4400);
+  LATD0_bit  = 0x00;
+  LATD1_bit  = 0x01;
+ delay_ms(4000);
+  LATD0_bit  = 0x00;
+  LATD1_bit  = 0x00;
+ delay_ms (4400);
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
 }
