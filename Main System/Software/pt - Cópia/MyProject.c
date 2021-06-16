@@ -167,7 +167,11 @@ void main()
                 viraresquerda();
                 break;
           }
-          
+     }
+     
+     if (!sens2)
+     {
+
      }
      
 
