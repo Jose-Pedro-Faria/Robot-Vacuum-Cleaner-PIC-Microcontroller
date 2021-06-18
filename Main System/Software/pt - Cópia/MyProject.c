@@ -42,13 +42,15 @@
                flags      = 0x00;                                               // registador flags auxiliares
 
  unsigned int  cont       = 0x00,                                               //Contador com inicialização em 0
-               parouimpar;
+               parouimpar,
+               parouimpar2;
 
  //---Funções---
  void voltmeter();
  int par_impar_test();
  void virardireita();
  void viraresquerda();
+ void semchao();
 
  //--Interrupções---
  void interrupt()
@@ -152,27 +154,43 @@ void main()
      {
       //if(flags) voltmeter();
 
-     if (sens1)
-     {
-          cont += 1;
-          parouimpar = par_impar_test();
+     if (sens1)                                                                 //Detetou Obstáculo?
+     {                                                                          //Sim
+          cont += 1;                                                            //Incrementa o contador
+          parouimpar = par_impar_test();                                        //Confirma se o número do contador é par ou impar
           
-          switch(parouimpar)
+          switch(parouimpar)                                                    //switch
           {
-           case 0:
-                virardireita();
+           case 0:                                                              //Se for par
+                virardireita();                                                 //Vira para a direita
                 break;
 
-           case 1:
-                viraresquerda();
+           case 1:                                                              //Se for impar
+                viraresquerda();                                                //Vira para a esquerda
                 break;
-          }
-     }
+                
+           default:
+                break;
+          } //end switch
+     } //end if
      
-     if (!sens2)
-     {
+     if (!sens2)                                                                //O sensor deixou de detetar chão?
+     {                                                                          //Sim
+      //semchao();
+       cont += 1;                                                               //Incrementa o contador
+      parouimpar2 = par_impar_test();                                           //Confirma se o número do contador é par ou impar
 
-     }
+      switch(parouimpar2)                                                       //switch
+      {
+       case 0:                                                                  //Se for par
+            viraresquerda();                                                    //Vira para a esquerda
+            break;
+
+       case 1:                                                                  //Se for impar
+            virardireita();                                                     //Vira para a direita
+            break;
+      }  //end switch
+     }  //end if
      
 
      } //end while
@@ -187,78 +205,106 @@ void main()
 
 void voltmeter()
 {
- static float volts_f;
- static int   volts;
+ static float volts_f;                                                          //Guarda valor float
+ static int   volts;                                                            //Guarda valor inteiro
  
- volts_f = ADC_Read(0)*0.048875;
+ volts_f = ADC_Read(0)*0.048875;                                                //Conversão da leitura ADC
  volts_f *=2.8;
- volts = (int)volts_f;
+ volts = (int)volts_f;                                                          //Conversão para inteiro
  /*
- Lcd_Chr(2,1,((char)volts/100)+0x30);
- Lcd_Chr_cp( ((char)volts&100/10)+0x30);
- Lcd_Chr_cp('.');
+ Lcd_Chr(2,1,((char)volts/100)+0x30);                                           //Impressão do valor no display carater a carater
+ Lcd_Chr_cp( ((char)volts&100/10)+0x30);                                        //A impressão podia ser feita todos os carateres ao mesmo tempo
+ Lcd_Chr_cp('.');                                                               //Contudo assim fica mais fiável e evita estouro da pilha
  Lcd_Chr_cp( ((char)volts&10)+0x30);
  Lcd_Chr_cp('V');
  */
 }
 
+
+//---Par ou Impar---
+//Analisa se um número é par ou impar e retorna a resposta
+
 int par_impar_test ()
 {
- if(cont % 2 == 0)
- {
-  return 0;
+ if(cont % 2 == 0)                                                              //O número é par?
+ {                                                                              //Sim
+  return 0;                                                                     //Retorna 0
  }
- else
+ else                                                                           //Não
  {
-  return 1;
+  return 1;                                                                     //Retorna 1
  }
 }
 
-void virardireita()
+//---Virar Para a Direita---
+//Função responsável por virar o robo para a direita
+void virardireita()                                                             //Função para virar para a direita
 {
        TMR0ON_bit = 0x00;
        vel1 = 0x00;
        vel2 = 0x00;
        delay_ms(1500);                                                          //Robo STOP
+       
        dir1 = 0x01;
        dir2 = 0x00;
        TMR0ON_bit = 0x01;
        delay_ms(1200);                                                          //Robo anda para trás
+       
        dir1 = 0x01;
        dir2 = 0x01;
        delay_ms (4400);                                                         //Desvio Robo
+       
        dir1 = 0x00;
        dir2 = 0x01;
        delay_ms(4000);                                                          //Anda em frente
+       
        dir1 = 0x01;
        dir2 = 0x01;
        delay_ms (4400);                                                         //Desvio Robo
+       
        dir1 = 0x00;
        dir2 = 0x01;                                                             //Anda em frente
 }
 
-void viraresquerda()
+//---Virar Para a Esquerda---
+//Função responsável por virar o robo para a esquerda
+void viraresquerda()                                                            //Função para virar para a esquerda
 {
        TMR0ON_bit = 0x00;
        vel1 = 0x00;
        vel2 = 0x00;
        delay_ms(1500);                                                          //Robo STOP
+       
        dir1 = 0x01;
        dir2 = 0x00;
        TMR0ON_bit = 0x01;
        delay_ms(1200);                                                          //Robo anda para trás
+       
        dir1 = 0x00;
        dir2 = 0x00;
        delay_ms (4400);                                                         //Desvio Robo
+       
        dir1 = 0x00;
        dir2 = 0x01;
        delay_ms(4000);                                                          //Anda em frente
+       
        dir1 = 0x00;
        dir2 = 0x00;
        delay_ms (4400);                                                         //Desvio Robo
+       
        dir1 = 0x00;
        dir2 = 0x01;                                                             //Anda em frente
 }
+
+void semchao()
+{
+
+}
+
+
+
+
+
 
 
 //==============================================================================

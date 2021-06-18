@@ -5,13 +5,15 @@
  flags = 0x00;
 
  unsigned int cont = 0x00,
- parouimpar;
+ parouimpar,
+ parouimpar2;
 
 
  void voltmeter();
  int par_impar_test();
  void virardireita();
  void viraresquerda();
+ void semchao();
 
 
  void interrupt()
@@ -27,7 +29,7 @@
 
   LATD6_bit  = ~ LATD6_bit ;
   LATD7_bit  = ~ LATD7_bit ;
-#line 75 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
+#line 77 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
  }
  }
 
@@ -57,7 +59,7 @@ void main()
  ADCON0 = 0x01;
  ADCON1 = 0x0E;
  ADCON2 = 0x18;
-#line 117 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
+#line 119 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
  TRISB = 0xC0;
  PORTB = 0xC0;
  TRISD = 0x3C;
@@ -68,7 +70,7 @@ void main()
 
  byteH = 0xB4;
  byteL = 0xE1;
-#line 142 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
+#line 144 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
 
@@ -96,8 +98,28 @@ void main()
  case 1:
  viraresquerda();
  break;
+
+ default:
+ break;
+ }
  }
 
+ if (! RD3_bit )
+ {
+
+ cont += 1;
+ parouimpar2 = par_impar_test();
+
+ switch(parouimpar2)
+ {
+ case 0:
+ viraresquerda();
+ break;
+
+ case 1:
+ virardireita();
+ break;
+ }
  }
 
 
@@ -119,8 +141,12 @@ void voltmeter()
  volts_f = ADC_Read(0)*0.048875;
  volts_f *=2.8;
  volts = (int)volts_f;
-#line 199 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
+#line 221 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
 }
+
+
+
+
 
 int par_impar_test ()
 {
@@ -134,28 +160,37 @@ int par_impar_test ()
  }
 }
 
+
+
 void virardireita()
 {
  TMR0ON_bit = 0x00;
   LATD6_bit  = 0x00;
   LATD7_bit  = 0x00;
  delay_ms(1500);
+
   LATD0_bit  = 0x01;
   LATD1_bit  = 0x00;
  TMR0ON_bit = 0x01;
  delay_ms(1200);
+
   LATD0_bit  = 0x01;
   LATD1_bit  = 0x01;
  delay_ms (4400);
+
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
  delay_ms(4000);
+
   LATD0_bit  = 0x01;
   LATD1_bit  = 0x01;
  delay_ms (4400);
+
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
 }
+
+
 
 void viraresquerda()
 {
@@ -163,19 +198,29 @@ void viraresquerda()
   LATD6_bit  = 0x00;
   LATD7_bit  = 0x00;
  delay_ms(1500);
+
   LATD0_bit  = 0x01;
   LATD1_bit  = 0x00;
  TMR0ON_bit = 0x01;
  delay_ms(1200);
+
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x00;
  delay_ms (4400);
+
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
  delay_ms(4000);
+
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x00;
  delay_ms (4400);
+
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
+}
+
+void semchao()
+{
+
 }
