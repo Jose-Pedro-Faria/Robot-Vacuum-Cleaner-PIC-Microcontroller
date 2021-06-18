@@ -50,7 +50,6 @@
  int par_impar_test();
  void virardireita();
  void viraresquerda();
- void semchao();
 
  //--Interrupções---
  void interrupt()
@@ -296,11 +295,6 @@ void viraresquerda()                                                            
        
        dir1 = 0x00;
        dir2 = 0x01;                                                             //Anda em frente
-}
-
-void semchao()
-{
-
 }
 
 
