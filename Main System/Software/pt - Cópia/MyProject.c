@@ -189,6 +189,8 @@ void main()
        case 1:                                                                  //Se for impar
             virardireita();                                                     //Vira para a direita
             break;
+       default:
+            break;
       }  //end switch
      }  //end if
      
@@ -300,10 +302,6 @@ void semchao()
 {
 
 }
-
-
-
-
 
 
 
