@@ -50,6 +50,7 @@
  int par_impar_test();
  void virardireita();
  void viraresquerda();
+ //void faltachao();
 
  //--Interrupções---
  void interrupt()
@@ -127,6 +128,7 @@ void main()
       byteL  = 0xE1;
       
      /*
+     --- Frequencia Predefinidas ---
      byteH = 0xA7;                                                              //110Hz
      byteL = 0x38;
 
@@ -138,6 +140,8 @@ void main()
 
       byteH  = 0xB4;                                                            //130Hz
       byteL  = 0xE1;
+      
+      ------------------------------
       */
       
       dir1 = 0x00;                                                              //Define o bit de direção inicial
@@ -168,15 +172,15 @@ void main()
                 viraresquerda();                                                //Vira para a esquerda
                 break;
                 
-           default:
+           default:                                                             //Se não houver retorno não faz nada
                 break;
           } //end switch
      } //end if
      
      if (!sens2)                                                                //O sensor deixou de detetar chão?
      {                                                                          //Sim
-      //semchao();
-       cont += 1;                                                               //Incrementa o contador
+      //faltachao();                                                              //chama a função responsável por tratar a falta de chão
+      cont += 1;                                                                //Incrementa o contador
       parouimpar2 = par_impar_test();                                           //Confirma se o número do contador é par ou impar
 
       switch(parouimpar2)                                                       //switch
@@ -188,9 +192,10 @@ void main()
        case 1:                                                                  //Se for impar
             virardireita();                                                     //Vira para a direita
             break;
-       default:
+       default:                                                                 //Se não houver retorno não faz nada
             break;
-      }  //end switch
+      }
+
      }  //end if
      
 
@@ -221,6 +226,30 @@ void voltmeter()
  */
 }
 
+
+//---Falta Chão ---
+//Função responsável por tratar da falta de chão
+//Não está a funcionar porque estoura a pilha
+/*
+void faltachao()
+{
+      cont += 1;                                                                //Incrementa o contador
+      parouimpar2 = par_impar_test();                                           //Confirma se o número do contador é par ou impar
+
+      switch(parouimpar2)                                                       //switch
+      {
+       case 0:                                                                  //Se for par
+            viraresquerda();                                                    //Vira para a esquerda
+            break;
+
+       case 1:                                                                  //Se for impar
+            virardireita();                                                     //Vira para a direita
+            break;
+       default:                                                                 //Se não houver retorno não faz nada
+            break;
+      } //end switch
+} //end faltachao
+*/
 
 //---Par ou Impar---
 //Analisa se um número é par ou impar e retorna a resposta
@@ -259,12 +288,34 @@ void virardireita()                                                             
        dir2 = 0x01;
        delay_ms(4000);                                                          //Anda em frente
        
+       /*
+       if(!sens2)                                                               //Houve falta de chão=
+       {                                                                        //Sim
+        faltachao();                                                            //Trata o problema
+       }
+       */
+       
        dir1 = 0x01;
        dir2 = 0x01;
        delay_ms (4400);                                                         //Desvio Robo
        
+       
+       if(sens1)                                                                //Mesmo depois do desvio tem obstáculo?
+       {                                                                        //Sim
+        dir1= 0x01;
+        dir2 = 0x01;
+        delay_ms (10000);                                                       //Roda 180 graus antes de voltar à normalidade
+       }
+       
        dir1 = 0x00;
        dir2 = 0x01;                                                             //Anda em frente
+       
+       /*
+       if(!sens2)                                                               //Houve falta de chão?
+       {                                                                        //Sim
+        faltachao();                                                            //Trata o problema
+       }
+       */
 }
 
 //---Virar Para a Esquerda---
@@ -289,13 +340,36 @@ void viraresquerda()                                                            
        dir2 = 0x01;
        delay_ms(4000);                                                          //Anda em frente
        
+       /*
+       if(!sens2)                                                               //Houve falta de chão?
+       {                                                                        //Sim
+        faltachao();                                                            //Trata o problema
+       }
+       */
+       
        dir1 = 0x00;
        dir2 = 0x00;
        delay_ms (4400);                                                         //Desvio Robo
        
+       if(sens1)                                                                //Mesmo depois do desvio tem obstáculo?
+       {                                                                        //Sim
+        dir1= 0x00;
+        dir2 = 0x00;
+        delay_ms (10000);                                                       //Roda 180 graus antes de voltar à normalidade
+       }
+       
        dir1 = 0x00;
        dir2 = 0x01;                                                             //Anda em frente
+       
+       /*
+       if(!sens2)                                                               //Houve falta de chão
+       {                                                                        //Sim
+        faltachao();                                                            //Trata o problema
+       }
+       */
 }
+
+
 
 
 

@@ -15,6 +15,7 @@
  void viraresquerda();
 
 
+
  void interrupt()
  {
 
@@ -28,7 +29,7 @@
 
   LATD6_bit  = ~ LATD6_bit ;
   LATD7_bit  = ~ LATD7_bit ;
-#line 76 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
+#line 77 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
  }
  }
 
@@ -58,7 +59,7 @@ void main()
  ADCON0 = 0x01;
  ADCON1 = 0x0E;
  ADCON2 = 0x18;
-#line 118 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
+#line 119 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
  TRISB = 0xC0;
  PORTB = 0xC0;
  TRISD = 0x3C;
@@ -69,7 +70,7 @@ void main()
 
  byteH = 0xB4;
  byteL = 0xE1;
-#line 143 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
+#line 147 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
 
@@ -121,6 +122,7 @@ void main()
  default:
  break;
  }
+
  }
 
 
@@ -142,13 +144,9 @@ void voltmeter()
  volts_f = ADC_Read(0)*0.048875;
  volts_f *=2.8;
  volts = (int)volts_f;
-#line 222 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
+#line 227 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
 }
-
-
-
-
-
+#line 257 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
 int par_impar_test ()
 {
  if(cont % 2 == 0)
@@ -182,13 +180,22 @@ void virardireita()
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
  delay_ms(4000);
-
+#line 298 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
   LATD0_bit  = 0x01;
   LATD1_bit  = 0x01;
  delay_ms (4400);
 
+
+ if( RD2_bit )
+ {
+  LATD0_bit = 0x01;
+  LATD1_bit  = 0x01;
+ delay_ms (10000);
+ }
+
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
+#line 319 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
 }
 
 
@@ -212,11 +219,19 @@ void viraresquerda()
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
  delay_ms(4000);
-
+#line 350 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x00;
  delay_ms (4400);
 
+ if( RD2_bit )
+ {
+  LATD0_bit = 0x00;
+  LATD1_bit  = 0x00;
+ delay_ms (10000);
+ }
+
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
+#line 370 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
 }
