@@ -5,6 +5,7 @@
  flags = 0x00;
 
  unsigned int cont = 0x00,
+ cont2 = 0x00,
  parouimpar,
  parouimpar2;
 
@@ -13,7 +14,7 @@
  int par_impar_test();
  void virardireita();
  void viraresquerda();
-
+ void faltachao();
 
 
  void interrupt()
@@ -29,7 +30,7 @@
 
   LATD6_bit  = ~ LATD6_bit ;
   LATD7_bit  = ~ LATD7_bit ;
-#line 77 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
+#line 78 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
  }
  }
 
@@ -59,7 +60,7 @@ void main()
  ADCON0 = 0x01;
  ADCON1 = 0x0E;
  ADCON2 = 0x18;
-#line 119 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
+#line 120 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
  TRISB = 0xC0;
  PORTB = 0xC0;
  TRISD = 0x3C;
@@ -70,9 +71,10 @@ void main()
 
  byteH = 0xB4;
  byteL = 0xE1;
-#line 147 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
+#line 148 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
+
 
 
 
@@ -103,30 +105,9 @@ void main()
  break;
  }
  }
-
- if (! RD3_bit )
- {
-
- cont += 1;
- parouimpar2 = par_impar_test();
-
- switch(parouimpar2)
- {
- case 0:
- viraresquerda();
- break;
-
- case 1:
- virardireita();
- break;
- default:
- break;
+#line 190 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
  }
 
- }
-
-
- }
 }
 
 
@@ -144,9 +125,36 @@ void voltmeter()
  volts_f = ADC_Read(0)*0.048875;
  volts_f *=2.8;
  volts = (int)volts_f;
-#line 227 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
+#line 216 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
 }
-#line 257 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
+
+
+
+
+
+void faltachao()
+{
+ cont += 1;
+ parouimpar2 = par_impar_test();
+
+ switch(parouimpar2)
+ {
+ case 0:
+ viraresquerda();
+ break;
+
+ case 1:
+ virardireita();
+ break;
+ default:
+ break;
+ }
+}
+
+
+
+
+
 int par_impar_test ()
 {
  if(cont % 2 == 0)
@@ -180,7 +188,8 @@ void virardireita()
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
  delay_ms(4000);
-#line 298 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
+
+
   LATD0_bit  = 0x01;
   LATD1_bit  = 0x01;
  delay_ms (4400);
@@ -191,12 +200,15 @@ void virardireita()
   LATD0_bit = 0x01;
   LATD1_bit  = 0x01;
  delay_ms (10000);
+ cont2 += 1;
  }
 
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
-#line 319 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
+
 }
+
+
 
 
 
@@ -219,7 +231,8 @@ void viraresquerda()
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
  delay_ms(4000);
-#line 350 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
+
+
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x00;
  delay_ms (4400);
@@ -229,9 +242,11 @@ void viraresquerda()
   LATD0_bit = 0x00;
   LATD1_bit  = 0x00;
  delay_ms (10000);
+ cont2 += 1;
  }
 
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x01;
-#line 370 "C:/Users/zecap/Documents/GitHub/Robot-Vacuum-Cleaner-PIC-Microcontroller/Main System/Software/pt - Cópia/MyProject.c"
+
+
 }

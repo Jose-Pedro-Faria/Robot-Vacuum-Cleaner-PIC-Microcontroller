@@ -261,6 +261,7 @@ cmip_bit
 comfrem
 compare_double
 cont
+cont2
 cren
 cren_bit
 cs
@@ -356,6 +357,7 @@ eepgd
 eepgd_bit
 equals_double
 f
+faltachao
 fast
 ferr
 ferr_bit

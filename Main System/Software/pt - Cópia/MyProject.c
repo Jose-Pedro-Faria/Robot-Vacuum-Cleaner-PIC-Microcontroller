@@ -41,7 +41,8 @@
                byteL      = 0x48,                                               //Byte menos sifnificativo overflow TM0
                flags      = 0x00;                                               // registador flags auxiliares
 
- unsigned int  cont       = 0x00,                                               //Contador com inicialização em 0
+ unsigned int  cont       = 0x00,                                               //Contador responsável por movimento para a esquerda ou direita
+               cont2      = 0x00,                                               //Contador responsável por parar o robo
                parouimpar,
                parouimpar2;
 
@@ -50,7 +51,7 @@
  int par_impar_test();
  void virardireita();
  void viraresquerda();
- //void faltachao();
+ void faltachao();
 
  //--Interrupções---
  void interrupt()
@@ -153,6 +154,7 @@ void main()
 
       //Lcd_Out(1,1,"Jose Faria");
      
+     //while(cont2 <= 10)
      while(1)
      {
       //if(flags) voltmeter();
@@ -177,29 +179,16 @@ void main()
           } //end switch
      } //end if
      
+     /*
      if (!sens2)                                                                //O sensor deixou de detetar chão?
      {                                                                          //Sim
-      //faltachao();                                                              //chama a função responsável por tratar a falta de chão
-      cont += 1;                                                                //Incrementa o contador
-      parouimpar2 = par_impar_test();                                           //Confirma se o número do contador é par ou impar
-
-      switch(parouimpar2)                                                       //switch
-      {
-       case 0:                                                                  //Se for par
-            viraresquerda();                                                    //Vira para a esquerda
-            break;
-
-       case 1:                                                                  //Se for impar
-            virardireita();                                                     //Vira para a direita
-            break;
-       default:                                                                 //Se não houver retorno não faz nada
-            break;
-      }
-
+      faltachao();                                                              //chama a função responsável por tratar a falta de chão
+      break;
      }  //end if
-     
+     */
 
      } //end while
+     
 } //end main
 
 //==============================================================================
@@ -229,8 +218,7 @@ void voltmeter()
 
 //---Falta Chão ---
 //Função responsável por tratar da falta de chão
-//Não está a funcionar porque estoura a pilha
-/*
+
 void faltachao()
 {
       cont += 1;                                                                //Incrementa o contador
@@ -249,7 +237,7 @@ void faltachao()
             break;
       } //end switch
 } //end faltachao
-*/
+
 
 //---Par ou Impar---
 //Analisa se um número é par ou impar e retorna a resposta
@@ -288,12 +276,6 @@ void virardireita()                                                             
        dir2 = 0x01;
        delay_ms(4000);                                                          //Anda em frente
        
-       /*
-       if(!sens2)                                                               //Houve falta de chão=
-       {                                                                        //Sim
-        faltachao();                                                            //Trata o problema
-       }
-       */
        
        dir1 = 0x01;
        dir2 = 0x01;
@@ -305,18 +287,15 @@ void virardireita()                                                             
         dir1= 0x01;
         dir2 = 0x01;
         delay_ms (10000);                                                       //Roda 180 graus antes de voltar à normalidade
+        cont2 += 1;                                                             //Incrementa 1 no contador 2
        }
        
        dir1 = 0x00;
        dir2 = 0x01;                                                             //Anda em frente
        
-       /*
-       if(!sens2)                                                               //Houve falta de chão?
-       {                                                                        //Sim
-        faltachao();                                                            //Trata o problema
-       }
-       */
-}
+}  // end virar direita
+
+
 
 //---Virar Para a Esquerda---
 //Função responsável por virar o robo para a esquerda
@@ -340,12 +319,6 @@ void viraresquerda()                                                            
        dir2 = 0x01;
        delay_ms(4000);                                                          //Anda em frente
        
-       /*
-       if(!sens2)                                                               //Houve falta de chão?
-       {                                                                        //Sim
-        faltachao();                                                            //Trata o problema
-       }
-       */
        
        dir1 = 0x00;
        dir2 = 0x00;
@@ -356,18 +329,14 @@ void viraresquerda()                                                            
         dir1= 0x00;
         dir2 = 0x00;
         delay_ms (10000);                                                       //Roda 180 graus antes de voltar à normalidade
+        cont2 += 1;                                                             //Incrementa 1 no contador 2
        }
        
        dir1 = 0x00;
        dir2 = 0x01;                                                             //Anda em frente
        
-       /*
-       if(!sens2)                                                               //Houve falta de chão
-       {                                                                        //Sim
-        faltachao();                                                            //Trata o problema
-       }
-       */
-}
+
+}    //end virar esquerda
 
 
 
