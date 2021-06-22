@@ -159,33 +159,33 @@ void main()
      {
       //if(flags) voltmeter();
 
-     if (sens1)                                                                 //Detetou Obstáculo?
-     {                                                                          //Sim
+      if (sens1)                                                                 //Detetou Obstáculo?
+      {                                                                          //Sim
           cont += 1;                                                            //Incrementa o contador
           parouimpar = par_impar_test();                                        //Confirma se o número do contador é par ou impar
           
           switch(parouimpar)                                                    //switch
           {
            case 0:                                                              //Se for par
-                virardireita();                                                 //Vira para a direita
+                viraresquerda();                                                 //Vira para a direita
                 break;
 
            case 1:                                                              //Se for impar
-                viraresquerda();                                                //Vira para a esquerda
+                virardireita();                                                //Vira para a esquerda
                 break;
                 
            default:                                                             //Se não houver retorno não faz nada
                 break;
           } //end switch
-     } //end if
+      } //end if  sens1
      
-     /*
-     if (!sens2)                                                                //O sensor deixou de detetar chão?
-     {                                                                          //Sim
-      faltachao();                                                              //chama a função responsável por tratar a falta de chão
-      break;
-     }  //end if
-     */
+
+      if (!sens2)                                                                //O sensor deixou de detetar chão?
+      {                                                                          //Sim
+       faltachao();                                                              //chama a função responsável por tratar a falta de chão
+
+      }  //end if sens2
+
 
      } //end while
      
@@ -227,11 +227,11 @@ void faltachao()
       switch(parouimpar2)                                                       //switch
       {
        case 0:                                                                  //Se for par
-            viraresquerda();                                                    //Vira para a esquerda
+            viraresquerda();                                                    //Vira para a direita
             break;
 
        case 1:                                                                  //Se for impar
-            virardireita();                                                     //Vira para a direita
+            virardireita();                                                    //Vira para a esquerda
             break;
        default:                                                                 //Se não houver retorno não faz nada
             break;
@@ -266,29 +266,38 @@ void virardireita()                                                             
        dir1 = 0x01;
        dir2 = 0x00;
        TMR0ON_bit = 0x01;
-       delay_ms(1200);                                                          //Robo anda para trás
+       delay_ms(900);                                                          //Robo anda para trás
        
        dir1 = 0x01;
        dir2 = 0x01;
-       delay_ms (4400);                                                         //Desvio Robo
-       
-       dir1 = 0x00;
-       dir2 = 0x01;
-       delay_ms(4000);                                                          //Anda em frente
-       
-       
-       dir1 = 0x01;
-       dir2 = 0x01;
-       delay_ms (4400);                                                         //Desvio Robo
-       
+       delay_ms (4300);                                                         //Desvio Robo
        
        if(sens1)                                                                //Mesmo depois do desvio tem obstáculo?
        {                                                                        //Sim
         dir1= 0x01;
         dir2 = 0x01;
-        delay_ms (10000);                                                       //Roda 180 graus antes de voltar à normalidade
+        delay_ms (7500);                                                       //Roda 180 graus antes de voltar à normalidade
         cont2 += 1;                                                             //Incrementa 1 no contador 2
-       }
+       }  //end if sens1
+       
+       dir1 = 0x00;
+       dir2 = 0x01;
+       delay_ms(5000);                                                          //Anda em frente
+       
+       
+       dir1 = 0x01;
+       dir2 = 0x01;
+       delay_ms (4300);                                                         //Desvio Robo
+       
+       /*
+       if(sens1)                                                                //Mesmo depois do desvio tem obstáculo?
+       {                                                                        //Sim
+        dir1= 0x01;
+        dir2 = 0x01;
+        delay_ms (7500);                                                       //Roda 180 graus antes de voltar à normalidade
+        cont2 += 1;                                                             //Incrementa 1 no contador 2
+       } //end if sens1
+       */
        
        dir1 = 0x00;
        dir2 = 0x01;                                                             //Anda em frente
@@ -309,28 +318,38 @@ void viraresquerda()                                                            
        dir1 = 0x01;
        dir2 = 0x00;
        TMR0ON_bit = 0x01;
-       delay_ms(1200);                                                          //Robo anda para trás
+       delay_ms(900);                                                          //Robo anda para trás
        
        dir1 = 0x00;
        dir2 = 0x00;
-       delay_ms (4400);                                                         //Desvio Robo
-       
-       dir1 = 0x00;
-       dir2 = 0x01;
-       delay_ms(4000);                                                          //Anda em frente
-       
-       
-       dir1 = 0x00;
-       dir2 = 0x00;
-       delay_ms (4400);                                                         //Desvio Robo
+       delay_ms (4200);                                                         //Desvio Robo
        
        if(sens1)                                                                //Mesmo depois do desvio tem obstáculo?
        {                                                                        //Sim
         dir1= 0x00;
         dir2 = 0x00;
-        delay_ms (10000);                                                       //Roda 180 graus antes de voltar à normalidade
+        delay_ms (7500);                                                       //Roda 180 graus antes de voltar à normalidade
+        cont2 += 1;                                                             //Incrementa 1 no contador 2
+       }    //end if sens1
+       
+       dir1 = 0x00;
+       dir2 = 0x01;
+       delay_ms(5000);                                                          //Anda em frente
+       
+       
+       dir1 = 0x00;
+       dir2 = 0x00;
+       delay_ms (4200);                                                         //Desvio Robo
+       
+       /*
+       if(sens1)                                                                //Mesmo depois do desvio tem obstáculo?
+       {                                                                        //Sim
+        dir1= 0x00;
+        dir2 = 0x00;
+        delay_ms (7500);                                                       //Roda 180 graus antes de voltar à normalidade
         cont2 += 1;                                                             //Incrementa 1 no contador 2
        }
+       */
        
        dir1 = 0x00;
        dir2 = 0x01;                                                             //Anda em frente

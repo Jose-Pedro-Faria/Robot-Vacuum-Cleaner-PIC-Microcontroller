@@ -21,7 +21,7 @@ _interrupt:
 L_interrupt0:
 ;MyProject.c,79 :: 		} //end interrupt
 L_end_interrupt:
-L__interrupt31:
+L__interrupt32:
 	RETFIE      1
 ; end of _interrupt
 
@@ -100,14 +100,14 @@ L_main1:
 	GOTO        L_main4
 ;MyProject.c,169 :: 		case 0:                                                              //Se for par
 L_main6:
-;MyProject.c,170 :: 		virardireita();                                                 //Vira para a direita
-	CALL        _virardireita+0, 0
+;MyProject.c,170 :: 		viraresquerda();                                                 //Vira para a direita
+	CALL        _viraresquerda+0, 0
 ;MyProject.c,171 :: 		break;
 	GOTO        L_main5
 ;MyProject.c,173 :: 		case 1:                                                              //Se for impar
 L_main7:
-;MyProject.c,174 :: 		viraresquerda();                                                //Vira para a esquerda
-	CALL        _viraresquerda+0, 0
+;MyProject.c,174 :: 		virardireita();                                                //Vira para a esquerda
+	CALL        _virardireita+0, 0
 ;MyProject.c,175 :: 		break;
 	GOTO        L_main5
 ;MyProject.c,177 :: 		default:                                                             //Se não houver retorno não faz nada
@@ -119,25 +119,32 @@ L_main4:
 	MOVLW       0
 	XORWF       _parouimpar+1, 0 
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main33
+	GOTO        L__main34
 	MOVLW       0
 	XORWF       _parouimpar+0, 0 
-L__main33:
+L__main34:
 	BTFSC       STATUS+0, 2 
 	GOTO        L_main6
 	MOVLW       0
 	XORWF       _parouimpar+1, 0 
 	BTFSS       STATUS+0, 2 
-	GOTO        L__main34
+	GOTO        L__main35
 	MOVLW       1
 	XORWF       _parouimpar+0, 0 
-L__main34:
+L__main35:
 	BTFSC       STATUS+0, 2 
 	GOTO        L_main7
 	GOTO        L_main8
 L_main5:
-;MyProject.c,180 :: 		} //end if
+;MyProject.c,180 :: 		} //end if  sens1
 L_main3:
+;MyProject.c,183 :: 		if (!sens2)                                                                //O sensor deixou de detetar chão?
+	BTFSC       RD3_bit+0, BitPos(RD3_bit+0) 
+	GOTO        L_main9
+;MyProject.c,185 :: 		faltachao();                                                              //chama a função responsável por tratar a falta de chão
+	CALL        _faltachao+0, 0
+;MyProject.c,187 :: 		}  //end if sens2
+L_main9:
 ;MyProject.c,190 :: 		} //end while
 	GOTO        L_main1
 ;MyProject.c,192 :: 		} //end main
@@ -169,45 +176,45 @@ _faltachao:
 	MOVF        R1, 0 
 	MOVWF       _parouimpar2+1 
 ;MyProject.c,227 :: 		switch(parouimpar2)                                                       //switch
-	GOTO        L_faltachao9
+	GOTO        L_faltachao10
 ;MyProject.c,229 :: 		case 0:                                                                  //Se for par
-L_faltachao11:
-;MyProject.c,230 :: 		viraresquerda();                                                    //Vira para a esquerda
+L_faltachao12:
+;MyProject.c,230 :: 		viraresquerda();                                                    //Vira para a direita
 	CALL        _viraresquerda+0, 0
 ;MyProject.c,231 :: 		break;
-	GOTO        L_faltachao10
+	GOTO        L_faltachao11
 ;MyProject.c,233 :: 		case 1:                                                                  //Se for impar
-L_faltachao12:
-;MyProject.c,234 :: 		virardireita();                                                     //Vira para a direita
+L_faltachao13:
+;MyProject.c,234 :: 		virardireita();                                                    //Vira para a esquerda
 	CALL        _virardireita+0, 0
 ;MyProject.c,235 :: 		break;
-	GOTO        L_faltachao10
-;MyProject.c,236 :: 		default:                                                                 //Se não houver retorno não faz nada
-L_faltachao13:
-;MyProject.c,237 :: 		break;
-	GOTO        L_faltachao10
-;MyProject.c,238 :: 		} //end switch
-L_faltachao9:
-	MOVLW       0
-	XORWF       _parouimpar2+1, 0 
-	BTFSS       STATUS+0, 2 
-	GOTO        L__faltachao37
-	MOVLW       0
-	XORWF       _parouimpar2+0, 0 
-L__faltachao37:
-	BTFSC       STATUS+0, 2 
 	GOTO        L_faltachao11
+;MyProject.c,236 :: 		default:                                                                 //Se não houver retorno não faz nada
+L_faltachao14:
+;MyProject.c,237 :: 		break;
+	GOTO        L_faltachao11
+;MyProject.c,238 :: 		} //end switch
+L_faltachao10:
 	MOVLW       0
 	XORWF       _parouimpar2+1, 0 
 	BTFSS       STATUS+0, 2 
 	GOTO        L__faltachao38
-	MOVLW       1
+	MOVLW       0
 	XORWF       _parouimpar2+0, 0 
 L__faltachao38:
 	BTFSC       STATUS+0, 2 
 	GOTO        L_faltachao12
+	MOVLW       0
+	XORWF       _parouimpar2+1, 0 
+	BTFSS       STATUS+0, 2 
+	GOTO        L__faltachao39
+	MOVLW       1
+	XORWF       _parouimpar2+0, 0 
+L__faltachao39:
+	BTFSC       STATUS+0, 2 
 	GOTO        L_faltachao13
-L_faltachao10:
+	GOTO        L_faltachao14
+L_faltachao11:
 ;MyProject.c,239 :: 		} //end faltachao
 L_end_faltachao:
 	RETURN      0
@@ -227,18 +234,18 @@ _par_impar_test:
 	MOVLW       0
 	XORWF       R2, 0 
 	BTFSS       STATUS+0, 2 
-	GOTO        L__par_impar_test40
+	GOTO        L__par_impar_test41
 	MOVLW       0
 	XORWF       R1, 0 
-L__par_impar_test40:
+L__par_impar_test41:
 	BTFSS       STATUS+0, 2 
-	GOTO        L_par_impar_test14
+	GOTO        L_par_impar_test15
 ;MyProject.c,249 :: 		return 0;                                                                     //Retorna 0
 	CLRF        R0 
 	CLRF        R1 
 	GOTO        L_end_par_impar_test
 ;MyProject.c,250 :: 		}
-L_par_impar_test14:
+L_par_impar_test15:
 ;MyProject.c,253 :: 		return 1;                                                                     //Retorna 1
 	MOVLW       1
 	MOVWF       R0 
@@ -265,27 +272,6 @@ _virardireita:
 	MOVWF       R12, 0
 	MOVLW       38
 	MOVWF       R13, 0
-L_virardireita16:
-	DECFSZ      R13, 1, 1
-	BRA         L_virardireita16
-	DECFSZ      R12, 1, 1
-	BRA         L_virardireita16
-	DECFSZ      R11, 1, 1
-	BRA         L_virardireita16
-	NOP
-;MyProject.c,266 :: 		dir1 = 0x01;
-	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,267 :: 		dir2 = 0x00;
-	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
-;MyProject.c,268 :: 		TMR0ON_bit = 0x01;
-	BSF         TMR0ON_bit+0, BitPos(TMR0ON_bit+0) 
-;MyProject.c,269 :: 		delay_ms(1200);                                                          //Robo anda para trás
-	MOVLW       31
-	MOVWF       R11, 0
-	MOVLW       113
-	MOVWF       R12, 0
-	MOVLW       30
-	MOVWF       R13, 0
 L_virardireita17:
 	DECFSZ      R13, 1, 1
 	BRA         L_virardireita17
@@ -294,16 +280,18 @@ L_virardireita17:
 	DECFSZ      R11, 1, 1
 	BRA         L_virardireita17
 	NOP
-;MyProject.c,271 :: 		dir1 = 0x01;
+;MyProject.c,266 :: 		dir1 = 0x01;
 	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,272 :: 		dir2 = 0x01;
-	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
-;MyProject.c,273 :: 		delay_ms (4400);                                                         //Desvio Robo
-	MOVLW       112
+;MyProject.c,267 :: 		dir2 = 0x00;
+	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,268 :: 		TMR0ON_bit = 0x01;
+	BSF         TMR0ON_bit+0, BitPos(TMR0ON_bit+0) 
+;MyProject.c,269 :: 		delay_ms(900);                                                          //Robo anda para trás
+	MOVLW       23
 	MOVWF       R11, 0
-	MOVLW       156
+	MOVLW       213
 	MOVWF       R12, 0
-	MOVLW       33
+	MOVLW       22
 	MOVWF       R13, 0
 L_virardireita18:
 	DECFSZ      R13, 1, 1
@@ -312,16 +300,17 @@ L_virardireita18:
 	BRA         L_virardireita18
 	DECFSZ      R11, 1, 1
 	BRA         L_virardireita18
-;MyProject.c,275 :: 		dir1 = 0x00;
-	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,276 :: 		dir2 = 0x01;
+	NOP
+;MyProject.c,271 :: 		dir1 = 0x01;
+	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,272 :: 		dir2 = 0x01;
 	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
-;MyProject.c,277 :: 		delay_ms(4000);                                                          //Anda em frente
-	MOVLW       102
+;MyProject.c,273 :: 		delay_ms (4300);                                                         //Desvio Robo
+	MOVLW       110
 	MOVWF       R11, 0
-	MOVLW       118
+	MOVLW       18
 	MOVWF       R12, 0
-	MOVLW       193
+	MOVLW       201
 	MOVWF       R13, 0
 L_virardireita19:
 	DECFSZ      R13, 1, 1
@@ -330,37 +319,44 @@ L_virardireita19:
 	BRA         L_virardireita19
 	DECFSZ      R11, 1, 1
 	BRA         L_virardireita19
-;MyProject.c,280 :: 		dir1 = 0x01;
-	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,281 :: 		dir2 = 0x01;
-	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
-;MyProject.c,282 :: 		delay_ms (4400);                                                         //Desvio Robo
-	MOVLW       112
-	MOVWF       R11, 0
-	MOVLW       156
-	MOVWF       R12, 0
-	MOVLW       33
-	MOVWF       R13, 0
-L_virardireita20:
-	DECFSZ      R13, 1, 1
-	BRA         L_virardireita20
-	DECFSZ      R12, 1, 1
-	BRA         L_virardireita20
-	DECFSZ      R11, 1, 1
-	BRA         L_virardireita20
-;MyProject.c,285 :: 		if(sens1)                                                                //Mesmo depois do desvio tem obstáculo?
+;MyProject.c,275 :: 		if(sens1)                                                                //Mesmo depois do desvio tem obstáculo?
 	BTFSS       RD2_bit+0, BitPos(RD2_bit+0) 
-	GOTO        L_virardireita21
-;MyProject.c,287 :: 		dir1= 0x01;
+	GOTO        L_virardireita20
+;MyProject.c,277 :: 		dir1= 0x01;
 	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,288 :: 		dir2 = 0x01;
+;MyProject.c,278 :: 		dir2 = 0x01;
 	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
-;MyProject.c,289 :: 		delay_ms (10000);                                                       //Roda 180 graus antes de voltar à normalidade
-	MOVLW       254
+;MyProject.c,279 :: 		delay_ms (7500);                                                       //Roda 180 graus antes de voltar à normalidade
+	MOVLW       191
 	MOVWF       R11, 0
-	MOVLW       167
+	MOVLW       61
 	MOVWF       R12, 0
-	MOVLW       101
+	MOVLW       203
+	MOVWF       R13, 0
+L_virardireita21:
+	DECFSZ      R13, 1, 1
+	BRA         L_virardireita21
+	DECFSZ      R12, 1, 1
+	BRA         L_virardireita21
+	DECFSZ      R11, 1, 1
+	BRA         L_virardireita21
+	NOP
+	NOP
+;MyProject.c,280 :: 		cont2 += 1;                                                             //Incrementa 1 no contador 2
+	INFSNZ      _cont2+0, 1 
+	INCF        _cont2+1, 1 
+;MyProject.c,281 :: 		}  //end if sens1
+L_virardireita20:
+;MyProject.c,283 :: 		dir1 = 0x00;
+	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,284 :: 		dir2 = 0x01;
+	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,285 :: 		delay_ms(5000);                                                          //Anda em frente
+	MOVLW       127
+	MOVWF       R11, 0
+	MOVLW       212
+	MOVWF       R12, 0
+	MOVLW       49
 	MOVWF       R13, 0
 L_virardireita22:
 	DECFSZ      R13, 1, 1
@@ -371,56 +367,48 @@ L_virardireita22:
 	BRA         L_virardireita22
 	NOP
 	NOP
-;MyProject.c,290 :: 		cont2 += 1;                                                             //Incrementa 1 no contador 2
-	INFSNZ      _cont2+0, 1 
-	INCF        _cont2+1, 1 
-;MyProject.c,291 :: 		}
-L_virardireita21:
-;MyProject.c,293 :: 		dir1 = 0x00;
-	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,294 :: 		dir2 = 0x01;                                                             //Anda em frente
+;MyProject.c,288 :: 		dir1 = 0x01;
+	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,289 :: 		dir2 = 0x01;
 	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
-;MyProject.c,296 :: 		}  // end virar direita
+;MyProject.c,290 :: 		delay_ms (4300);                                                         //Desvio Robo
+	MOVLW       110
+	MOVWF       R11, 0
+	MOVLW       18
+	MOVWF       R12, 0
+	MOVLW       201
+	MOVWF       R13, 0
+L_virardireita23:
+	DECFSZ      R13, 1, 1
+	BRA         L_virardireita23
+	DECFSZ      R12, 1, 1
+	BRA         L_virardireita23
+	DECFSZ      R11, 1, 1
+	BRA         L_virardireita23
+;MyProject.c,302 :: 		dir1 = 0x00;
+	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,303 :: 		dir2 = 0x01;                                                             //Anda em frente
+	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,305 :: 		}  // end virar direita
 L_end_virardireita:
 	RETURN      0
 ; end of _virardireita
 
 _viraresquerda:
 
-;MyProject.c,302 :: 		void viraresquerda()                                                            //Função para virar para a esquerda
-;MyProject.c,304 :: 		TMR0ON_bit = 0x00;
+;MyProject.c,311 :: 		void viraresquerda()                                                            //Função para virar para a esquerda
+;MyProject.c,313 :: 		TMR0ON_bit = 0x00;
 	BCF         TMR0ON_bit+0, BitPos(TMR0ON_bit+0) 
-;MyProject.c,305 :: 		vel1 = 0x00;
+;MyProject.c,314 :: 		vel1 = 0x00;
 	BCF         LATD6_bit+0, BitPos(LATD6_bit+0) 
-;MyProject.c,306 :: 		vel2 = 0x00;
+;MyProject.c,315 :: 		vel2 = 0x00;
 	BCF         LATD7_bit+0, BitPos(LATD7_bit+0) 
-;MyProject.c,307 :: 		delay_ms(1500);                                                          //Robo STOP
+;MyProject.c,316 :: 		delay_ms(1500);                                                          //Robo STOP
 	MOVLW       39
 	MOVWF       R11, 0
 	MOVLW       13
 	MOVWF       R12, 0
 	MOVLW       38
-	MOVWF       R13, 0
-L_viraresquerda23:
-	DECFSZ      R13, 1, 1
-	BRA         L_viraresquerda23
-	DECFSZ      R12, 1, 1
-	BRA         L_viraresquerda23
-	DECFSZ      R11, 1, 1
-	BRA         L_viraresquerda23
-	NOP
-;MyProject.c,309 :: 		dir1 = 0x01;
-	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,310 :: 		dir2 = 0x00;
-	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
-;MyProject.c,311 :: 		TMR0ON_bit = 0x01;
-	BSF         TMR0ON_bit+0, BitPos(TMR0ON_bit+0) 
-;MyProject.c,312 :: 		delay_ms(1200);                                                          //Robo anda para trás
-	MOVLW       31
-	MOVWF       R11, 0
-	MOVLW       113
-	MOVWF       R12, 0
-	MOVLW       30
 	MOVWF       R13, 0
 L_viraresquerda24:
 	DECFSZ      R13, 1, 1
@@ -430,16 +418,18 @@ L_viraresquerda24:
 	DECFSZ      R11, 1, 1
 	BRA         L_viraresquerda24
 	NOP
-;MyProject.c,314 :: 		dir1 = 0x00;
-	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,315 :: 		dir2 = 0x00;
+;MyProject.c,318 :: 		dir1 = 0x01;
+	BSF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,319 :: 		dir2 = 0x00;
 	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
-;MyProject.c,316 :: 		delay_ms (4400);                                                         //Desvio Robo
-	MOVLW       112
+;MyProject.c,320 :: 		TMR0ON_bit = 0x01;
+	BSF         TMR0ON_bit+0, BitPos(TMR0ON_bit+0) 
+;MyProject.c,321 :: 		delay_ms(900);                                                          //Robo anda para trás
+	MOVLW       23
 	MOVWF       R11, 0
-	MOVLW       156
+	MOVLW       213
 	MOVWF       R12, 0
-	MOVLW       33
+	MOVLW       22
 	MOVWF       R13, 0
 L_viraresquerda25:
 	DECFSZ      R13, 1, 1
@@ -448,16 +438,17 @@ L_viraresquerda25:
 	BRA         L_viraresquerda25
 	DECFSZ      R11, 1, 1
 	BRA         L_viraresquerda25
-;MyProject.c,318 :: 		dir1 = 0x00;
+	NOP
+;MyProject.c,323 :: 		dir1 = 0x00;
 	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,319 :: 		dir2 = 0x01;
-	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
-;MyProject.c,320 :: 		delay_ms(4000);                                                          //Anda em frente
-	MOVLW       102
+;MyProject.c,324 :: 		dir2 = 0x00;
+	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,325 :: 		delay_ms (4200);                                                         //Desvio Robo
+	MOVLW       107
 	MOVWF       R11, 0
-	MOVLW       118
+	MOVLW       137
 	MOVWF       R12, 0
-	MOVLW       193
+	MOVLW       113
 	MOVWF       R13, 0
 L_viraresquerda26:
 	DECFSZ      R13, 1, 1
@@ -466,37 +457,44 @@ L_viraresquerda26:
 	BRA         L_viraresquerda26
 	DECFSZ      R11, 1, 1
 	BRA         L_viraresquerda26
-;MyProject.c,323 :: 		dir1 = 0x00;
-	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,324 :: 		dir2 = 0x00;
-	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
-;MyProject.c,325 :: 		delay_ms (4400);                                                         //Desvio Robo
-	MOVLW       112
-	MOVWF       R11, 0
-	MOVLW       156
-	MOVWF       R12, 0
-	MOVLW       33
-	MOVWF       R13, 0
-L_viraresquerda27:
-	DECFSZ      R13, 1, 1
-	BRA         L_viraresquerda27
-	DECFSZ      R12, 1, 1
-	BRA         L_viraresquerda27
-	DECFSZ      R11, 1, 1
-	BRA         L_viraresquerda27
 ;MyProject.c,327 :: 		if(sens1)                                                                //Mesmo depois do desvio tem obstáculo?
 	BTFSS       RD2_bit+0, BitPos(RD2_bit+0) 
-	GOTO        L_viraresquerda28
+	GOTO        L_viraresquerda27
 ;MyProject.c,329 :: 		dir1= 0x00;
 	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
 ;MyProject.c,330 :: 		dir2 = 0x00;
 	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
-;MyProject.c,331 :: 		delay_ms (10000);                                                       //Roda 180 graus antes de voltar à normalidade
-	MOVLW       254
+;MyProject.c,331 :: 		delay_ms (7500);                                                       //Roda 180 graus antes de voltar à normalidade
+	MOVLW       191
 	MOVWF       R11, 0
-	MOVLW       167
+	MOVLW       61
 	MOVWF       R12, 0
-	MOVLW       101
+	MOVLW       203
+	MOVWF       R13, 0
+L_viraresquerda28:
+	DECFSZ      R13, 1, 1
+	BRA         L_viraresquerda28
+	DECFSZ      R12, 1, 1
+	BRA         L_viraresquerda28
+	DECFSZ      R11, 1, 1
+	BRA         L_viraresquerda28
+	NOP
+	NOP
+;MyProject.c,332 :: 		cont2 += 1;                                                             //Incrementa 1 no contador 2
+	INFSNZ      _cont2+0, 1 
+	INCF        _cont2+1, 1 
+;MyProject.c,333 :: 		}    //end if sens1
+L_viraresquerda27:
+;MyProject.c,335 :: 		dir1 = 0x00;
+	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,336 :: 		dir2 = 0x01;
+	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,337 :: 		delay_ms(5000);                                                          //Anda em frente
+	MOVLW       127
+	MOVWF       R11, 0
+	MOVLW       212
+	MOVWF       R12, 0
+	MOVLW       49
 	MOVWF       R13, 0
 L_viraresquerda29:
 	DECFSZ      R13, 1, 1
@@ -507,16 +505,29 @@ L_viraresquerda29:
 	BRA         L_viraresquerda29
 	NOP
 	NOP
-;MyProject.c,332 :: 		cont2 += 1;                                                             //Incrementa 1 no contador 2
-	INFSNZ      _cont2+0, 1 
-	INCF        _cont2+1, 1 
-;MyProject.c,333 :: 		}
-L_viraresquerda28:
-;MyProject.c,335 :: 		dir1 = 0x00;
+;MyProject.c,340 :: 		dir1 = 0x00;
 	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
-;MyProject.c,336 :: 		dir2 = 0x01;                                                             //Anda em frente
+;MyProject.c,341 :: 		dir2 = 0x00;
+	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
+;MyProject.c,342 :: 		delay_ms (4200);                                                         //Desvio Robo
+	MOVLW       107
+	MOVWF       R11, 0
+	MOVLW       137
+	MOVWF       R12, 0
+	MOVLW       113
+	MOVWF       R13, 0
+L_viraresquerda30:
+	DECFSZ      R13, 1, 1
+	BRA         L_viraresquerda30
+	DECFSZ      R12, 1, 1
+	BRA         L_viraresquerda30
+	DECFSZ      R11, 1, 1
+	BRA         L_viraresquerda30
+;MyProject.c,354 :: 		dir1 = 0x00;
+	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
+;MyProject.c,355 :: 		dir2 = 0x01;                                                             //Anda em frente
 	BSF         LATD1_bit+0, BitPos(LATD1_bit+0) 
-;MyProject.c,339 :: 		}    //end virar esquerda
+;MyProject.c,358 :: 		}    //end virar esquerda
 L_end_viraresquerda:
 	RETURN      0
 ; end of _viraresquerda

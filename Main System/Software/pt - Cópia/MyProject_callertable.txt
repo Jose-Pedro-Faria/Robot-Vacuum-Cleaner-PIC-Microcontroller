@@ -1,6 +1,10 @@
 main
 	__CC2DW
 	par_impar_test
-	virardireita
 	viraresquerda
+	virardireita
+	faltachao
+		par_impar_test
+		viraresquerda
+		virardireita
 interrupt
