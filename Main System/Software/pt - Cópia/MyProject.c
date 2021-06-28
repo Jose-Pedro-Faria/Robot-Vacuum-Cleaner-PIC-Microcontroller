@@ -94,7 +94,6 @@ void main()
      //--
 
      //--Inicializa Conteúdo do Timer0--
-     //
      //Timer0 = 35536d = 7748h (para contar até 35000d)
      TMR0L    = 0x48;                                                           //byte menos significativo      0x48
      TMR0H    = 0x77;                                                           //byte mais significativo       0x77
@@ -123,8 +122,6 @@ void main()
      PORTD   = 0x3C;                                                            //Inicializa PORTD
      ADCON1  = 0x0F;                                                            //Configura os pinos do PORTB como digitais
      
-
-     
       byteH  = 0xB4;                                                            //130Hz
       byteL  = 0xE1;
       
@@ -152,9 +149,8 @@ void main()
       //Lcd_Cmd(_LCD_CLEAR);
       //Lcd_Cmd(_LCD_CURSOR_OFF);
 
-      //Lcd_Out(1,1,"Jose Faria");
+      //Lcd_Out(1,1,"Robo Aspirador");
      
-     //while(cont2 <= 10)
      while(1)
      {
       //if(flags) voltmeter();
@@ -179,21 +175,16 @@ void main()
           } //end switch
       } //end if  sens1
      
-
       if (!sens2)                                                                //O sensor deixou de detetar chão?
       {                                                                          //Sim
        faltachao();                                                              //chama a função responsável por tratar a falta de chão
 
       }  //end if sens2
-
-
      } //end while
-     
 } //end main
 
 //==============================================================================
 //---Funções---
-
 //==============================================================================
 //---Voltmeter---
 //Mede a tensão da bateria, imprime o valor no display e tomada de decisão de tensão baixa
@@ -238,7 +229,6 @@ void faltachao()
       } //end switch
 } //end faltachao
 
-
 //---Par ou Impar---
 //Analisa se um número é par ou impar e retorna a resposta
 
@@ -279,32 +269,20 @@ void virardireita()                                                             
         delay_ms (7500);                                                       //Roda 180 graus antes de voltar à normalidade
         cont2 += 1;                                                             //Incrementa 1 no contador 2
        }  //end if sens1
-       
+       else
+       {
        dir1 = 0x00;
        dir2 = 0x01;
        delay_ms(5000);                                                          //Anda em frente
        
-       
        dir1 = 0x01;
        dir2 = 0x01;
        delay_ms (4300);                                                         //Desvio Robo
-       
-       /*
-       if(sens1)                                                                //Mesmo depois do desvio tem obstáculo?
-       {                                                                        //Sim
-        dir1= 0x01;
-        dir2 = 0x01;
-        delay_ms (7500);                                                       //Roda 180 graus antes de voltar à normalidade
-        cont2 += 1;                                                             //Incrementa 1 no contador 2
-       } //end if sens1
-       */
+       }
        
        dir1 = 0x00;
        dir2 = 0x01;                                                             //Anda em frente
-       
 }  // end virar direita
-
-
 
 //---Virar Para a Esquerda---
 //Função responsável por virar o robo para a esquerda
@@ -328,10 +306,10 @@ void viraresquerda()                                                            
        {                                                                        //Sim
         dir1= 0x00;
         dir2 = 0x00;
-        delay_ms (7500);                                                       //Roda 180 graus antes de voltar à normalidade
-        cont2 += 1;                                                             //Incrementa 1 no contador 2
-       }    //end if sens1
-       
+        delay_ms (7500);                                                        //Roda 180 graus antes de voltar à normalidade
+       }
+       else
+       {
        dir1 = 0x00;
        dir2 = 0x01;
        delay_ms(5000);                                                          //Anda em frente
@@ -340,26 +318,11 @@ void viraresquerda()                                                            
        dir1 = 0x00;
        dir2 = 0x00;
        delay_ms (4200);                                                         //Desvio Robo
-       
-       /*
-       if(sens1)                                                                //Mesmo depois do desvio tem obstáculo?
-       {                                                                        //Sim
-        dir1= 0x00;
-        dir2 = 0x00;
-        delay_ms (7500);                                                       //Roda 180 graus antes de voltar à normalidade
-        cont2 += 1;                                                             //Incrementa 1 no contador 2
        }
-       */
        
        dir1 = 0x00;
        dir2 = 0x01;                                                             //Anda em frente
        
-
 }    //end virar esquerda
-
-
-
-
-
 //==============================================================================
 //---Final do Programa---
