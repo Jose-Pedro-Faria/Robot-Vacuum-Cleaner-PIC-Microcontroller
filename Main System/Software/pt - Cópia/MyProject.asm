@@ -446,12 +446,12 @@ L_viraresquerda26:
 	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
 ;MyProject.c,302 :: 		dir2 = 0x00;
 	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
-;MyProject.c,303 :: 		delay_ms (4200);                                                         //Desvio Robo
-	MOVLW       107
+;MyProject.c,303 :: 		delay_ms (4100);                                                         //Desvio Robo
+	MOVLW       104
 	MOVWF       R11, 0
-	MOVLW       137
+	MOVLW       0
 	MOVWF       R12, 0
-	MOVLW       113
+	MOVLW       25
 	MOVWF       R13, 0
 L_viraresquerda27:
 	DECFSZ      R13, 1, 1
@@ -510,12 +510,12 @@ L_viraresquerda31:
 	BCF         LATD0_bit+0, BitPos(LATD0_bit+0) 
 ;MyProject.c,319 :: 		dir2 = 0x00;
 	BCF         LATD1_bit+0, BitPos(LATD1_bit+0) 
-;MyProject.c,320 :: 		delay_ms (4200);                                                         //Desvio Robo
-	MOVLW       107
+;MyProject.c,320 :: 		delay_ms (4100);                                                         //Desvio Robo
+	MOVLW       104
 	MOVWF       R11, 0
-	MOVLW       137
+	MOVLW       0
 	MOVWF       R12, 0
-	MOVLW       113
+	MOVLW       25
 	MOVWF       R13, 0
 L_viraresquerda32:
 	DECFSZ      R13, 1, 1

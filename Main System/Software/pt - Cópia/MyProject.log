@@ -1,13 +1,13 @@
-0	1	mikroCPIC1618.exe -MSF -DBG -pP18F4520 -L -DL -O11111114 -fo20 -N"C:\Users\zecap\Documents\GitHub\Robot-Vacuum-Cleaner-PIC-Microcontroller\Main System\Software\pt - Cópia\MyProject.mcppi" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\uses\P18\" -SP"C:\Users\zecap\Documents\GitHub\Robot-Vacuum-Cleaner-PIC-Microcontroller\Main System\Software\pt - Cópia\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Packages\FAT32 Library\Uses\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Packages\FT800\Uses\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Packages\FT810\Uses\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Packages\FT812\Uses\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Packages\mikroBUS BDF API\Uses\" -IP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\uses\P18\" "MyProject.c" "__Lib_Math.mcl" "__Lib_MathDouble.mcl" "__Lib_System.mcl" "__Lib_Delays.mcl" "__Lib_ADC_A_D.mcl" "__Lib_LcdConsts.mcl" "__Lib_Lcd.mcl"	 
+0	1	mikroCPIC1618.exe -MSF -DBG -pP18F4520 -DL -O11111114 -fo20 -N"C:\Users\zecap\Documents\GitHub\Robot-Vacuum-Cleaner-PIC-Microcontroller\Main System\Software\pt - Cópia\MyProject.mcppi" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\uses\P18\" -SP"C:\Users\zecap\Documents\GitHub\Robot-Vacuum-Cleaner-PIC-Microcontroller\Main System\Software\pt - Cópia\" -IP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\uses\P18\" "MyProject.c" "__Lib_Math.mcl" "__Lib_MathDouble.mcl" "__Lib_System.mcl" "__Lib_Delays.mcl" "__Lib_ADC_A_D.mcl" "__Lib_LcdConsts.mcl" "__Lib_Lcd.mcl"	 
 hint: 0	1139	Available RAM: 1515 [bytes], Available ROM: 32768 [bytes]	 
 diagnostics: 0	122	Compilation Started	MyProject.c
 diagnostics: 326	123	Compiled Successfully	MyProject.c
 hint: 194	1164	Variable 'volts_f' has been eliminated by optimizer	MyProject.c
 hint: 195	1164	Variable 'volts' has been eliminated by optimizer	MyProject.c
-diagnostics: 0	127	All files Compiled in 188 ms	 
+diagnostics: 0	127	All files Compiled in 328 ms	 
 hint: 0	1144	Used RAM (bytes): 10 (1%)  Free RAM (bytes): 1505 (99%)	Used RAM (bytes): 10 (1%)  Free RAM (bytes): 1505 (99%)
 hint: 0	1144	Used ROM (bytes): 684 (2%)  Free ROM (bytes): 32084 (98%)	Used ROM (bytes): 684 (2%)  Free ROM (bytes): 32084 (98%)
 diagnostics: 0	125	Project Linked Successfully	MyProject.mcppi
-diagnostics: 0	128	Linked in 31 ms	 
-diagnostics: 0	129	Project 'MyProject.mcppi' completed: 375 ms	 
-diagnostics: 0	103	Finished successfully: 06 jul 2021, 19:27:40	MyProject.mcppi
+diagnostics: 0	128	Linked in 188 ms	 
+diagnostics: 0	129	Project 'MyProject.mcppi' completed: 688 ms	 
+diagnostics: 0	103	Finished successfully: 06 jul 2021, 20:01:07	MyProject.mcppi

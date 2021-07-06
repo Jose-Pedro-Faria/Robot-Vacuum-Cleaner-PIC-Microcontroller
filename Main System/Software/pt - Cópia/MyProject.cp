@@ -221,7 +221,7 @@ void viraresquerda()
 
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x00;
- delay_ms (4200);
+ delay_ms (4100);
 
  if( RD2_bit )
  {
@@ -238,7 +238,7 @@ void viraresquerda()
 
   LATD0_bit  = 0x00;
   LATD1_bit  = 0x00;
- delay_ms (4200);
+ delay_ms (4100);
  }
 
   LATD0_bit  = 0x00;

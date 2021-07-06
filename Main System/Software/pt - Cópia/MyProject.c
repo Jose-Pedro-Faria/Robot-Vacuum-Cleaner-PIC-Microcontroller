@@ -300,7 +300,7 @@ void viraresquerda()                                                            
        
        dir1 = 0x00;
        dir2 = 0x00;
-       delay_ms (4200);                                                         //Desvio Robo
+       delay_ms (4100);                                                         //Desvio Robo
        
        if(sens1)                                                                //Mesmo depois do desvio tem obstáculo?
        {                                                                        //Sim
@@ -317,7 +317,7 @@ void viraresquerda()                                                            
        
        dir1 = 0x00;
        dir2 = 0x00;
-       delay_ms (4200);                                                         //Desvio Robo
+       delay_ms (4100);                                                         //Desvio Robo
        }
        
        dir1 = 0x00;
